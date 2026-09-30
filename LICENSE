@@ -19,8 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-This licence covers L-evate's own files (lev.js, audio.py, build.py, render.js,
-stills.js, base.css, and the documentation). engine/motion.js is motion-broll by
-Bart, MIT (see LICENSE-motion-broll.txt). The fonts in engine/fonts are licensed
-under the SIL Open Font License 1.1 (see OFL-Geist.txt and OFL-DMSans.txt).
