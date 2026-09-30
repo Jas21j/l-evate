@@ -1,0 +1,461 @@
+<title>devLaunchr — launch film</title>
+<style>
+:root{--ink:#09090b;--paper:#f4f4f5;--ash:#a1a1aa;--fog:#71717a;--steel:#52525b;--raised:#18181b;--recessed:#141416;--hair:#26262b;--strong:#35353c;
+  --launch:#00e833;--accentText:#3aef64;--warn:#e8b35c;--warnSoft:rgba(224,163,64,.1);--danger:#f07e75;--dangerSoft:rgba(238,109,99,.1);--pending:#e0a340;--font:'DM Sans'}
+#stage{font-family:'DM Sans',system-ui,sans-serif}
+.g{color:var(--accentText)}
+.path{position:absolute;left:0;top:0;white-space:nowrap;font-family:'Geist Mono',monospace;color:var(--steel)}
+.card{position:absolute;left:0;top:0;background:var(--raised);border:1.5px solid var(--hair);border-radius:24px;box-shadow:0 30px 80px -30px rgba(0,0,0,.8);overflow:hidden}
+.term .ln{white-space:pre;font-family:'Geist Mono',monospace;line-height:1.55}
+.term .cmd{color:var(--paper)} .term .cmd b{color:var(--accentText);font-weight:500}
+.term .err{color:var(--danger)} .term .dim{color:var(--fog)}
+.head{position:absolute;left:0;top:0;font-weight:600;letter-spacing:-.03em;line-height:1.08;color:var(--paper)}
+.head .mask{padding-bottom:.08em;margin-bottom:-.08em}
+.word{position:absolute;left:0;top:0;font-weight:600;letter-spacing:-.035em;white-space:nowrap}
+.sub{position:absolute;left:0;top:0;color:var(--ash);white-space:nowrap}
+.pill{display:flex;align-items:center;justify-content:center;gap:14px;font-weight:600;white-space:nowrap}
+.row{display:flex;align-items:center;gap:18px;white-space:nowrap}
+.dot{border-radius:50%;flex:none}
+.callout{position:absolute;left:0;top:0;border-radius:20px;display:flex;gap:18px;padding:26px 28px;box-sizing:border-box}
+.callout .t{font-weight:600;font-size:1.04em}
+.callout .d{color:var(--ash);font-size:.8em;line-height:1.45;margin-top:6px}
+.callout code{font-family:'Geist Mono',monospace;color:var(--paper);background:#0d0d0f;border-radius:6px;padding:1px 6px;font-size:.92em}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:0 16px;height:44px;font-weight:600;font-size:.74em;margin-top:14px;margin-right:10px}
+.btn.solid{background:var(--paper);color:var(--ink)} .btn.sec{border:1.5px solid var(--hair);color:var(--paper)}
+.btn.primary{background:var(--launch);color:var(--ink)}
+.kbd{display:inline-flex;align-items:center;justify-content:center;border:1.5px solid var(--hair);background:var(--recessed);border-radius:10px;color:var(--ash);font-weight:500}
+#win{position:absolute;left:0;top:0;border-radius:20px;overflow:hidden;border:1.5px solid var(--hair);box-shadow:0 40px 120px -30px rgba(0,0,0,.9),0 0 0 1px rgba(0,0,0,.4);background:#111113}
+#cam{position:absolute;left:0;top:0;width:2880px;height:1578px;transform-origin:0 0}
+#cam img{position:absolute;left:0;top:0;width:2880px;height:1578px}
+.light{position:absolute;width:24px;height:24px;border-radius:50%}
+</style>
+
+<div data-slot="stage">
+  <div id="paths"></div>
+
+  <div class="card term" id="term"><div id="termBar" style="height:54px;border-bottom:1.5px solid var(--hair);display:flex;align-items:center;gap:10px;padding:0 22px">
+    <span class="dot" style="width:13px;height:13px;background:#3a3a41"></span><span class="dot" style="width:13px;height:13px;background:#3a3a41"></span><span class="dot" style="width:13px;height:13px;background:#3a3a41"></span>
+    <span class="mono" style="margin-left:14px;color:var(--fog);font-size:.8em">zsh — ~/Downloads</span></div>
+    <div id="termBody" style="padding:26px 30px"></div></div>
+
+  <div id="flash" class="a dot" style="width:18px;height:18px;background:var(--launch)"></div>
+  <img id="logo" class="a" src="assets/icon.png" style="filter:drop-shadow(0 30px 60px rgba(0,0,0,.7))">
+  <div id="wordmark" class="word">devLaunchr</div>
+  <div id="tagline" class="sub">Every local project, one click away.</div>
+
+  <!-- headlines, one per scene -->
+  <div class="head" id="hScan"><span class="mask"><span>Scans your machine</span></span><span class="mask"><span>for <span class="g">runnable projects.</span></span></span></div>
+  <div class="head" id="hClick"><span class="mask"><span class="g">One click.</span></span><span class="mask"><span>It’s running.</span></span></div>
+  <div class="head" id="hPreview"><span class="mask"><span>Live preview, logs,</span></span><span class="mask"><span>and <span class="g">its own port.</span></span></span></div>
+  <div class="head" id="hFix"><span class="mask"><span>Errors that tell you</span></span><span class="mask"><span>how to <span class="g">fix them.</span></span></span></div>
+  <div class="head" id="hKey"><span class="mask"><span>Every action,</span></span><span class="mask"><span><span class="g">one keystroke</span> away.</span></span></div>
+  <div class="head" id="hQuit"><span class="mask"><span>Quit, and <span class="g">nothing</span></span></span><span class="mask"><span>is left running.</span></span></div>
+
+  <!-- scan: pill that becomes the results card -->
+  <div class="card" id="scan">
+    <div id="scanPill" class="a pill" style="color:var(--ink)"><span id="scanIc"></span>Scan this Mac</div>
+    <div id="scanCard" class="a" style="width:100%">
+      <div id="scanTitle" style="font-weight:600;letter-spacing:-.02em"></div>
+      <div id="scanSub" style="color:var(--fog);margin-top:6px"></div>
+      <div id="scanRows" style="margin-top:22px"></div>
+    </div>
+  </div>
+
+  <!-- the real app, from real screenshots -->
+  <div id="win"><div id="cam">
+    <img id="imBefore" src="assets/home-before.png">
+    <img id="imAfter" src="assets/home-after.png">
+    <div id="pend" class="a dot" style="background:var(--pending)"></div>
+    <div id="pillSprite" class="a" style="background:url(assets/home-after.png) no-repeat"></div>
+    <img id="imPreview" src="assets/landing-preview.png">
+    <span class="light" style="left:36px;top:30px;background:#ff5f57"></span><span class="light" style="left:76px;top:30px;background:#febc2e"></span><span class="light" style="left:116px;top:30px;background:#28c840"></span>
+  </div></div>
+
+  <!-- answers, drawn in the app's own callout style with its real copy -->
+  <div class="callout" id="fixA"><span id="icA"></span><div style="flex:1;position:relative">
+    <div id="fixAwarn"><div class="t" style="color:var(--warn)">Dependencies are not installed</div>
+      <div class="d">This project has no installed dependencies yet, so <code>npm run dev</code> has nothing to run.</div>
+      <span class="btn solid" id="btnInstall">Run npm install</span></div>
+    <div id="fixAinfo" class="a" style="left:0;top:0"><div class="t" style="color:var(--ash)">Installing dependencies…</div>
+      <div class="d">Output is streaming into the log below.</div></div>
+  </div></div>
+  <div id="startBtn" class="a btn primary" style="margin:0"><span id="icPlay"></span>Start</div>
+  <div class="callout" id="fixB" style="background:var(--dangerSoft)"><span id="icB"></span><div style="flex:1">
+    <div class="t" style="color:var(--danger)">Port 3000 is already in use</div>
+    <div class="d">Held by node (pid 15130), which devLaunchr did not start.</div>
+    <span class="btn solid">Free port and start</span><span class="btn sec">See all ports</span></div></div>
+  <div class="callout" id="fixC" style="background:var(--dangerSoft)"><span id="icC"></span><div style="flex:1">
+    <div class="t" style="color:var(--danger)">Docker is not installed</div>
+    <div class="d">This project runs <code>docker</code>, which is not on your PATH. devLaunchr can install it with <code>brew install --cask docker</code>.</div>
+    <span class="btn solid">Install Docker with Homebrew</span></div></div>
+
+  <!-- command palette: a key chip that becomes the palette -->
+  <div class="card" id="pal" style="background:var(--raised)">
+    <div id="palKey" class="a pill" style="color:var(--paper)"><span class="kbd" id="k1">⌘</span><span class="kbd" id="k2">K</span></div>
+    <div id="palBody" class="a" style="left:0;top:0;width:100%">
+      <div id="palInput" class="row" style="border-bottom:1.5px solid var(--hair)"><span id="icSearch"></span><span id="palText" style="color:var(--paper)"></span><span id="caret" style="width:3px;background:var(--accentText)"></span></div>
+      <div id="palRows"></div>
+    </div>
+  </div>
+
+  <!-- quit -->
+  <div id="quitRows" class="a"></div>
+  <div id="quitPill" class="a pill card" style="position:absolute;border-radius:999px;background:var(--raised)">Quit devLaunchr <span class="kbd" style="padding:0 10px;height:34px">⌘Q</span></div>
+  <div id="quitLine1" class="sub mono" style="color:var(--paper)">no orphaned processes</div>
+  <div id="quitLine2" class="sub mono">185 automated checks · macOS · Windows · Linux</div>
+
+  <!-- end card -->
+  <div id="endFree" class="sub">Free and open source · MIT</div>
+  <div id="endOs" class="sub" style="color:var(--fog)">macOS · Windows · Linux</div>
+  <div id="endUrl" class="sub mono" style="color:var(--accentText)">github.com/Jas21j/devlaunchr</div>
+</div><!--/stage-->
+
+<script>
+const $=L.$, W=L.W, H=L.H, T=42;
+const rects={"before": {"dpr": 2, "card": [1127, 917, 545, 449], "thumb": [1129, 919, 541, 338], "action": [1594, 1285, 52, 52], "dot": [1153, 1304, 14, 14], "pill": null, "running": [20, 104, 472, 68]}};
+
+// ------------------------------------------------------------ layout per format
+const LAY=L.pick({
+  '16x9':{head:{x:120,y:540,w:640,size:72,align:'left',anchor:'mid'},V:[1290,540],
+    term:{w:1320,size:30,cx:960,cy:540},logo:{w:330,cx:960,cy:400},word:{size:124,cy:680},tag:{size:38,cy:780},
+    scan:{pill:[400,104],card:[780,760]},win:{w:1180},fix:{w:860,size:33,gap:24},pal:{w:820,size:34},
+    quit:{w:700,size:34,row:72},end:{logo:330,logoY:330,word:132,wordY:590,free:{s:40,y:700},os:{s:34,y:762},url:{s:44,y:860}}},
+  tall:{head:{x:70,y:230,w:940,size:88,align:'center',anchor:'top'},V:[540,1120],
+    term:{w:990,size:25,cx:540,cy:960},logo:{w:460,cx:540,cy:760},word:{size:136,cy:1110},tag:{size:40,cy:1220},
+    scan:{pill:[460,116],card:[960,980]},win:{w:1040},fix:{w:1000,size:38,gap:28},pal:{w:980,size:40},
+    quit:{w:920,size:42,row:92},end:{logo:380,logoY:760,word:124,wordY:1040,free:{s:40,y:1160},os:{s:36,y:1225},url:{s:40,y:1330}}},
+  default:{head:{x:80,y:110,w:920,size:62,align:'center',anchor:'top'},V:[540,640],
+    term:{w:960,size:23,cx:540,cy:540},logo:{w:320,cx:540,cy:380},word:{size:110,cy:640},tag:{size:34,cy:740},
+    scan:{pill:[380,96],card:[760,560]},win:{w:960},fix:{w:900,size:28,gap:18},pal:{w:820,size:30},
+    quit:{w:760,size:32,row:62},end:{logo:260,logoY:330,word:96,wordY:560,free:{s:34,y:660},os:{s:30,y:715},url:{s:36,y:800}}}
+});
+const [VX,VY]=LAY.V;
+const UI=L.pick({'16x9':1.12,tall:1.2,default:1});
+
+// ------------------------------------------------------------ timeline (seconds)
+const K={
+  term:0.35, collapse:5.2, flash:5.62, mark:5.7, word:6.6, tag:7.2, markOut:10.0,
+  hScan:10.4, pill:10.55, click1:11.35, morph1:11.45, rows0:11.75, rows1:13.05, found:13.2, scanOut:15.25,
+  win:15.4, hClick:15.65, zoom:16.3, click2:17.55, green:18.15, expand:19.95, hPreview:20.35, winOut:23.3,
+  hFix:23.55, fixA:23.85, clickA:24.9, installed:26.05, fixB:26.35, fixC:27.6, fixOut:29.55,
+  hKey:29.75, key:30.0, palMorph:30.4, type:30.75, sel1:31.75, sel2:32.2, enter:32.7, palOut:33.5,
+  hQuit:33.75, qRows:34.0, qPill:34.45, click3:34.95, qStop:35.05, q1:35.6, q2:35.95, quitOut:37.3,
+  end:37.45, endWord:38.05, endFree:38.55, endOs:38.9, endUrl:39.3
+};
+
+// ------------------------------------------------------------ sound (the same cue list the audio builder reads)
+L.cue(0,'drone',{until:5.65,v:0.9});
+L.cue(K.mark,'chord',{chord:'E',until:K.win,v:0.8});
+L.cue(K.win,'chord',{chord:'C#m',until:K.hFix,v:0.75});
+L.cue(K.hFix,'chord',{chord:'A',until:K.hKey,v:0.75});
+L.cue(K.hKey,'chord',{chord:'B',until:K.end,v:0.7});
+L.cue(K.end,'chord',{chord:'E',until:T,v:0.85});
+
+// ------------------------------------------------------------ scene 1: the mess
+const PATHS=['~/Desktop/portfolio','~/Downloads/client-site','~/Projects/api/apps/web','~/Desktop/old-thing-v2-FINAL','~/Code/dashboard',
+ '~/Sites/landing','~/Downloads/template-main','~/work/acme/marketing','~/Desktop/test-app-3','~/Code/side-projects/recipe-box','~/Projects/docs',
+ '~/Desktop/untitled folder 4','~/repos/blog','~/Downloads/next-starter (1)','~/Code/northwind/landing','~/work/api-server','~/Desktop/hackathon',
+ '~/Projects/monorepo/packages/web','~/Sites/field-notes','~/Downloads/vite-project','~/Code/infra','~/Desktop/copy of site','~/repos/shop',
+ '~/Projects/flask-api','~/Code/portfolio-2024','~/Downloads/landing-v2','~/work/client-b/site','~/Desktop/demo','~/Code/tools/cli','~/Sites/php-shop',
+ '~/Projects/astro-blog','~/Downloads/django-app','~/repos/playground','~/Code/experiments'];
+const rnd=L.rng(42);
+const pathEls=PATHS.map((p,i)=>{const el=document.createElement('div');el.className='path';el.textContent=p;$('paths').appendChild(el);
+  const z=0.55+rnd()*0.8;return {el,x:rnd(),y:rnd(),z,ang:(rnd()-.5)*14,sp:(rnd()-.5)*0.012,ph:rnd()*6.28,op:0.16+rnd()*0.3};});
+const TERM=[
+  {k:'cmd',text:'$ cd ~/Downloads/client-site && npm run dev',t:K.term,cps:40},
+  {k:'err',text:'sh: astro: command not found',t:1.9},
+  {k:'cmd',text:'$ PORT=3000 npm start',t:2.35,cps:40},
+  {k:'err',text:'Error: listen EADDRINUSE: address already in use :::3000',t:3.0},
+  {k:'cmd',text:'$ lsof -i :3000',t:3.45,cps:40},
+  {k:'dim',text:'node    15130   ← still running from Tuesday',t:3.95}
+];
+$('termBody').innerHTML=TERM.map((l,i)=>`<div class="ln ${l.k}" id="tl${i}"></div>`).join('');
+TERM.forEach(l=>{if(l.k==='cmd') L.cueTyping(l.text,l.t,l.cps); else L.cue(l.t,'thud',{v:l.k==='dim'?0.55:0.85});});
+L.cue(K.collapse,'whoosh_in',{dur:0.5,v:0.9});
+L.cue(K.flash,'swell',{dur:1.0,v:0.6});
+L.cue(K.mark,'jingle',{notes:['E5','B5','E6'],step:0.13,v:1});
+
+function sceneMess(t){
+  const col=L.seg(t,K.collapse,K.collapse+0.45), c=M.eio(col), gone=t>K.collapse+0.5;
+  $('paths').style.display=gone?'none':'';
+  if(!gone) for(const p of pathEls){
+    const x=(p.x*1.2-0.1)*W+Math.sin(t*0.35+p.ph)*30*p.z+t*p.sp*W, y=(p.y*1.1-0.05)*H+Math.cos(t*0.28+p.ph)*18*p.z;
+    const px=M.lerp(x,W/2,c), py=M.lerp(y,H/2,c);
+    p.el.style.fontSize=(L.portrait?30:26)*p.z+'px';
+    p.el.style.opacity=(p.op*(1-c)).toFixed(3);
+    p.el.style.transform=`translate(${px.toFixed(1)}px,${py.toFixed(1)}px) translate(-50%,-50%) rotate(${p.ang*(1-c)}deg) scale(${(1-c*0.9).toFixed(3)})`;
+  }
+  const term=$('term');
+  if(gone){term.style.display='none';return;}
+  term.style.display='';
+  const a=L.sp(t,K.term-0.25,[14,0.9]);
+  term.style.width=LAY.term.w+'px'; term.style.fontSize=LAY.term.size+'px';
+  L.place(term,LAY.term.cx,LAY.term.cy+(1-a)*40,(0.96+0.04*a)*(1-c*0.97));
+  term.style.opacity=(M.clamp(a*1.3)*(1-c)).toFixed(3);
+  TERM.forEach((l,i)=>{const el=$('tl'+i);
+    if(l.k==='cmd'){const s=L.typed(l.text,t,l.t,l.cps);M.setText(el,s||' ');}
+    else M.setText(el,t>=l.t?l.text:' ');
+    if(l.k!=='cmd'){const k=L.sp(t,l.t,[30,0.7]);el.style.transform=`translateX(${(1-k)*-14}px)`;el.style.opacity=t>=l.t?1:0;}
+  });
+}
+
+// ------------------------------------------------------------ scene 2: the mark
+function sceneMark(t){
+  const f=$('flash');
+  const fa=L.seg(t,K.flash,K.mark+0.25);
+  if(t<K.flash||t>K.mark+0.35){f.style.display='none';}
+  else{f.style.display='';const s=Math.sin(Math.PI*fa)*2.2;L.place(f,LAY.logo.cx,LAY.logo.cy,s);f.style.opacity=1-fa*0.6;}
+  const end=t>=K.end;
+  const lg=$('logo'), wm=$('wordmark'), tg=$('tagline');
+  if(!end){
+    const a=L.sp(t,K.mark,[11,0.82]), out=L.eio(t,K.markOut,0.5);
+    ['endFree','endOs','endUrl'].forEach(id=>$(id).style.display='none');
+    if(t<K.mark||out>=1){lg.style.display='none';wm.style.display='none';tg.style.display='none';return;}
+    lg.style.display=wm.style.display=tg.style.display='';
+    lg.style.width=LAY.logo.w+'px';
+    L.place(lg,LAY.logo.cx,LAY.logo.cy-out*60,(0.7+0.3*a)*(1+0.012*Math.sin((t-K.mark)*2.2))*(1-out*0.2));
+    lg.style.opacity=(M.clamp(a*1.6)*(1-out)).toFixed(3);
+    wm.style.fontSize=LAY.word.size+'px'; tg.style.fontSize=LAY.tag.size+'px';
+    const w=L.sp(t,K.word,[15,0.9]), g=L.sp(t,K.tag,[15,0.9]);
+    L.place(wm,LAY.logo.cx,LAY.word.cy+(1-w)*36-out*60); wm.style.opacity=(M.clamp(w*1.4)*(1-out)).toFixed(3);
+    L.place(tg,LAY.logo.cx,LAY.tag.cy+(1-g)*28-out*60); tg.style.opacity=(M.clamp(g*1.4)*(1-out)).toFixed(3);
+    return;
+  }
+  // end card: the mark comes home
+  const E=LAY.end, a=L.sp(t,K.end,[10,0.85]);
+  lg.style.display=wm.style.display='';tg.style.display='none';
+  lg.style.width=E.logo+'px'; L.place(lg,W/2,E.logoY,(0.8+0.2*a)*(1+0.01*Math.sin((t-K.end)*2)));lg.style.opacity=M.clamp(a*1.5);
+  const w=L.sp(t,K.endWord,[15,0.9]); wm.style.fontSize=E.word+'px'; L.place(wm,W/2,E.wordY+(1-w)*30); wm.style.opacity=M.clamp(w*1.4);
+  [['endFree',K.endFree,E.free],['endOs',K.endOs,E.os],['endUrl',K.endUrl,E.url]].forEach(([id,t0,s])=>{const el=$(id),k=L.sp(t,t0,[15,0.9]);
+    el.style.display=t<t0?'none':'';el.style.fontSize=s.s+'px';L.place(el,W/2,s.y+(1-k)*24);el.style.opacity=M.clamp(k*1.4);});
+}
+L.cue(K.end,'jingle',{notes:['E5','G#5','B5','E6'],step:0.11,v:1.1,big:true});
+L.cue(K.endUrl,'tick',{f:2600,v:0.5});
+
+// ------------------------------------------------------------ headlines
+const HEADS=[['hScan',K.hScan,K.scanOut],['hClick',K.hClick,K.hPreview-0.1],['hPreview',K.hPreview,K.winOut],['hFix',K.hFix,K.fixOut],['hKey',K.hKey,K.palOut],['hQuit',K.hQuit,K.quitOut]];
+HEADS.forEach(([,t0])=>L.cue(t0,'whoosh',{dur:0.5,v:0.25}));
+function heads(t){
+  const h=LAY.head;
+  for(const [id,tin,tout] of HEADS){
+    const el=$(id);
+    if(t<tin-0.05||t>tout+0.5){el.style.display='none';continue;}
+    el.style.display='';el.style.fontSize=h.size+'px';el.style.width=h.w+'px';el.style.textAlign=h.align;
+    const hh=el.offsetHeight;
+    el.style.transform=`translate(${h.x}px,${(h.anchor==='mid'?h.y-hh/2:h.y)}px)`;
+    [...el.querySelectorAll('.mask>span')].forEach((s,i)=>L.rise(s,t,tin+i*0.09,tout-0.05+i*0.05,{dy:110}));
+  }
+}
+
+// ------------------------------------------------------------ scene 3: scan
+const SCAN_ROWS=[['acme-marketing','Static'],['portfolio','Static'],['recipe-box','Static'],['dashboard','Vite'],['docs-site','Next.js'],['api','Flask'],['landing','Static'],['field-notes','Static'],['shop','PHP'],['infra','Compose']];
+$('scanIc').innerHTML=`<svg width="30" height="30" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2.5 5.5v-2a1 1 0 0 1 1-1h2M10.5 2.5h2a1 1 0 0 1 1 1v2M13.5 10.5v2a1 1 0 0 1-1 1h-2M5.5 13.5h-2a1 1 0 0 1-1-1v-2M5 8h6"/></svg>`;
+$('scanRows').innerHTML=SCAN_ROWS.map((r,i)=>`<div class="row" id="sr${i}" style="height:1.9em;border-bottom:1.5px solid var(--hair)">
+  <span class="dot" style="width:.42em;height:.42em;border:2px solid var(--steel)"></span><span style="flex:1">${r[0]}</span>
+  <span style="font-size:.7em;color:var(--ash);border:1.5px solid var(--hair);border-radius:8px;padding:2px 10px">${r[1]}</span></div>`).join('');
+L.cue(K.pill,'pop',{v:0.7});
+L.cue(K.click1,'click');
+L.cue(K.morph1,'whoosh_out',{dur:0.45,v:0.35});
+SCAN_ROWS.forEach((_,i)=>L.cue(K.rows0+i*0.12,'tick',{f:1500+i*90,v:0.35}));
+L.cue(K.found,'ding',{v:0.8});
+const scanW=M.track(LAY.scan.pill[0],[[K.morph1,LAY.scan.card[0]]],M.MORPH), scanH=M.track(LAY.scan.pill[1],[[K.morph1,LAY.scan.card[1]]],M.MORPH);
+const scanR=M.track(LAY.scan.pill[1]/2,[[K.morph1,28]],M.MORPH), scanBg=M.ctrack('#00e833',[[K.morph1-0.03,'#18181b']],[48,1]);
+function sceneScan(t){
+  const el=$('scan');
+  if(t<K.pill||t>K.scanOut+0.5){el.style.display='none';return;}
+  el.style.display='';
+  const a=L.sp(t,K.pill,[13,0.8]), out=L.eio(t,K.scanOut,0.45);
+  const press=M.presses([K.click1])(t);
+  el.style.width=scanW(t)+'px';el.style.height=scanH(t)+'px';el.style.borderRadius=scanR(t)+'px';el.style.background=scanBg(t);
+  el.style.borderColor=t<K.morph1?'transparent':'var(--hair)';
+  const s=(0.6+0.4*a)*(1-0.04*press)*(1-out*0.15);
+  L.place(el,VX,VY-out*40,s); el.style.opacity=(M.clamp(a*1.5)*(1-out)).toFixed(3);
+  el.style.fontSize=(L.portrait?40:36)+'px';
+  const pv=M.vis(t,K.pill,K.morph1,{din:0,lin:0.2,lout:0.1});
+  const pl=$('scanPill'); if(M.apply(pl,pv)){pl.style.left=0;pl.style.top=0;pl.style.width=scanW(t)+'px';pl.style.height=scanH(t)+'px';}
+  const cv=M.vis(t,K.morph1+0.1,null,{din:0.05,lin:0.3});
+  const card=$('scanCard');
+  if(M.apply(card,cv)){card.style.left='40px';card.style.top='36px';card.style.width=(scanW(t)-80)+'px';
+    const n=L.count(t,K.rows0,K.rows1,0,33);
+    const done=t>=K.found;
+    $('scanTitle').style.fontSize=(L.portrait?48:44)+'px';
+    M.setText($('scanTitle'),done?'33 projects found':`Scanning this Mac… ${n}`);
+    $('scanSub').style.fontSize=(L.portrait?30:24)+'px';
+    M.setText($('scanSub'),done?'Scanned in 0.1s · nothing is added until you confirm':'~/Code  ·  ~/Desktop');
+    $('scanTitle').style.color=done?'var(--accentText)':'var(--paper)';
+    SCAN_ROWS.forEach((_,i)=>{const r=$('sr'+i),k=L.sp(t,K.rows0+i*0.12,[20,0.85]);r.style.opacity=M.clamp(k*1.5);r.style.transform=`translateY(${(1-k)*18}px)`;
+      r.style.fontSize=(L.portrait?32:29)+'px';
+      const d=r.firstElementChild; d.style.borderColor=done?'var(--launch)':'var(--steel)'; d.style.background=done?'var(--launch)':'transparent';});
+  }
+}
+
+// ------------------------------------------------------------ scene 4: one click, on the real app
+const IMG=[2880,1578], winW=LAY.win.w, kFit=winW/IMG[0], winH=IMG[1]*kFit;
+const card=rects.before.card, act=rects.before.action, dot=rects.before.dot;
+const cardC=[card[0]+card[2]/2,card[1]+card[3]/2];
+const ZOOM=L.portrait?3.2:2.35;
+const camS=M.track(kFit,[[K.zoom,kFit*ZOOM,M.CAM],[K.expand,kFit,[7,1]]]);
+const camFx=M.track(IMG[0]/2,[[K.zoom,cardC[0],M.CAM],[K.expand,IMG[0]/2,[7,1]]]);
+const camFy=M.track(IMG[1]/2,[[K.zoom,cardC[1],M.CAM],[K.expand,IMG[1]/2,[7,1]]]);
+const winX=VX-winW/2, winY=VY-winH/2;
+const toScreen=(t,px,py)=>[winX+winW/2+camS(t)*(px-camFx(t)), winY+winH/2+camS(t)*(py-camFy(t))];
+L.cue(K.win,'whoosh_out',{dur:0.5,v:0.3});
+L.cue(K.click2,'click');
+L.cue(K.click2+0.12,'tick',{f:1200,v:0.3});
+L.cue(K.green,'ding',{v:1});
+L.cue(K.green+0.06,'pop',{v:0.55});
+L.cue(K.expand,'whoosh_out',{dur:0.6,v:0.45});
+const PILL=[1552,1196,106,50];
+function sceneWin(t){
+  const w=$('win');
+  if(t<K.win-0.1||t>K.winOut+0.6){w.style.display='none';return;}
+  w.style.display='';
+  const a=L.sp(t,K.win,[11,0.9]), out=L.eio(t,K.winOut,0.5);
+  w.style.width=winW+'px';w.style.height=winH+'px';
+  w.style.transform=`translate(${winX}px,${winY+(1-a)*60-out*50}px) scale(${(0.94+0.06*a)*(1-out*0.08)})`;
+  w.style.opacity=(M.clamp(a*1.5)*(1-out)).toFixed(3);
+  const s=camS(t),fx=camFx(t),fy=camFy(t);
+  $('cam').style.transform=`translate(${(winW/2-s*fx).toFixed(2)}px,${(winH/2-s*fy).toFixed(2)}px) scale(${s.toFixed(5)})`;
+  // the click: real before → real after, only inside the card
+  const inset=`inset(${card[1]}px ${IMG[0]-card[0]-card[2]}px ${IMG[1]-card[1]-card[3]}px ${card[0]}px round 28px)`;
+  const af=$('imAfter'); af.style.clipPath=inset; af.style.opacity=M.clamp((t-K.green)/0.18).toFixed(3);
+  // "starting": the status dot goes amber and pulses, as it does in the app
+  const pd=$('pend'), pOn=t>=K.click2+0.05&&t<K.green+0.1;
+  pd.style.display=pOn?'':'none';
+  if(pOn){const pulse=0.5+0.5*Math.sin((t-K.click2)*18);pd.style.width=pd.style.height=dot[2]+'px';pd.style.left=dot[0]+'px';pd.style.top=dot[1]+'px';
+    pd.style.boxShadow=`0 0 0 ${(4+pulse*8).toFixed(1)}px rgba(224,163,64,${(0.35*(1-pulse)).toFixed(3)})`;}
+  // the port pill stamps in
+  const sp=$('pillSprite'), k=L.sp(t,K.green+0.05,[16,0.62]);
+  sp.style.display=t<K.green||t>K.expand+0.2?'none':'';
+  Object.assign(sp.style,{left:PILL[0]+'px',top:PILL[1]+'px',width:PILL[2]+'px',height:PILL[3]+'px',backgroundPosition:`-${PILL[0]}px -${PILL[1]}px`,backgroundSize:`${IMG[0]}px ${IMG[1]}px`,
+    borderRadius:'25px',transformOrigin:'50% 50%',transform:`scale(${(1.6-0.6*k).toFixed(4)})`,opacity:M.clamp(k*2).toFixed(3)});
+  // the card grows into its live preview
+  const pv=$('imPreview'), e=M.eio(L.seg(t,K.expand,K.expand+0.75));
+  pv.style.display=t<K.expand?'none':'';
+  const ins=[card[1]*(1-e),(IMG[0]-card[0]-card[2])*(1-e),(IMG[1]-card[1]-card[3])*(1-e),card[0]*(1-e)];
+  pv.style.clipPath=`inset(${ins.map(v=>v.toFixed(1)+'px').join(' ')} round ${(28*(1-e)+2).toFixed(1)}px)`;
+  pv.style.opacity=M.clamp((t-K.expand)/0.15).toFixed(3);
+}
+
+// ------------------------------------------------------------ scene 5: answers
+const icon=(d,c,s=34)=>`<svg width="${s}" height="${s}" viewBox="0 0 16 16" fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const WARN='<path d="M8 2.5 14 13H2z"/><path d="M8 6.5v3M8 11.2v.2"/>', INFO='<circle cx="8" cy="8" r="5.75"/><path d="M8 7.2v3.8M8 5v.3"/>';
+$('icA').innerHTML=icon(WARN,'#e8b35c'); $('icB').innerHTML=icon(WARN,'#f07e75'); $('icC').innerHTML=icon(WARN,'#f07e75');
+$('icPlay').innerHTML='<svg width="18" height="18" viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="#09090b"/></svg>';
+L.cue(K.fixA,'pop',{v:0.5}); L.cue(K.clickA,'click'); L.cue(K.installed,'ding',{v:0.7}); L.cue(K.fixB,'pop',{v:0.5}); L.cue(K.fixC,'pop',{v:0.5});
+for(let i=0;i<8;i++) L.cue(K.clickA+0.2+i*0.11,'key',{v:0.25});
+function sceneFix(t){
+  const F=LAY.fix, show=t>=K.fixA-0.1&&t<=K.fixOut+0.6;
+  ['fixA','fixB','fixC','startBtn'].forEach(id=>$(id).style.display=show?'':'none');
+  if(!show) return;
+  const out=L.eio(t,K.fixOut,0.45);
+  const A=$('fixA'),B=$('fixB'),C=$('fixC');
+  for(const el of [A,B,C]){el.style.width=F.w+'px';el.style.fontSize=F.size+'px';}
+  // A: warn → installing → resolves into the Start button
+  const installing=t>=K.clickA+0.08, done=t>=K.installed;
+  A.style.background=installing?'rgba(244,244,245,.05)':'var(--warnSoft)';
+  $('icA').innerHTML=installing?icon(INFO,'#a1a1aa'):icon(WARN,'#e8b35c');
+  $('fixAwarn').style.visibility=installing?'hidden':'visible'; $('fixAinfo').style.display=installing?'':'none';
+  $('btnInstall').style.transform=`scale(${1-0.05*M.presses([K.clickA])(t)})`;
+  const collapse=L.eio(t,K.installed-0.05,0.35);
+  const heights=[A.offsetHeight*(1-collapse)+ (done?64*collapse:0),B.offsetHeight,C.offsetHeight];
+  const vis=[L.sp(t,K.fixA,[14,0.85]),L.sp(t,K.fixB,[14,0.85]),L.sp(t,K.fixC,[14,0.85])];
+  const total=heights[0]+ (t>=K.fixB?heights[1]+F.gap:0)+(t>=K.fixC?heights[2]+F.gap:0);
+  const top0=M.track(VY-heights[0]/2,[[K.fixB,VY-(heights[0]+heights[1]+F.gap)/2,[10,1]],[K.fixC,VY-(heights[0]+heights[1]+heights[2]+2*F.gap)/2,[10,1]]])(t);
+  let y=top0;
+  const x=VX-F.w/2;
+  [[A,vis[0],heights[0]],[B,vis[1],heights[1]],[C,vis[2],heights[2]]].forEach(([el,v,h],i)=>{
+    el.style.transform=`translate(${x}px,${(y+(1-v)*40-out*30).toFixed(1)}px) scale(${(0.96+0.04*v).toFixed(4)})`;
+    el.style.opacity=(M.clamp(v*1.4)*(1-out)*(i===0?1-collapse:1)).toFixed(3);
+    if(i===0){const sb=$('startBtn'),k=L.sp(t,K.installed,[16,0.7]);sb.style.fontSize=F.size+'px';
+      sb.style.transform=`translate(${x}px,${(y+(1-v)*40-out*30).toFixed(1)}px) scale(${(0.8+0.2*k).toFixed(4)})`;sb.style.transformOrigin='0 0';sb.style.opacity=(done?M.clamp(k*1.5):0)*(1-out);}
+    y+=h+F.gap;
+  });
+  cursorTarget.fix=()=>{const r=$('btnInstall').getBoundingClientRect(), s=$('stage').getBoundingClientRect(), k=s.width/W;return [(r.left-s.left)/k+r.width/k*0.6,(r.top-s.top)/k+r.height/k*0.65];};
+}
+
+// ------------------------------------------------------------ scene 6: command palette
+const PAL_ROWS=[{t:'dashboard',h:'Vite',st:true},{t:'Open dashboard in VS Code',ic:'<path d="M5.5 4.5 2 8l3.5 3.5M10.5 4.5 14 8l-3.5 3.5M9 3 7 13"/>'},{t:'Start dashboard',ic:'<path d="M5 3.5v9l7.5-4.5z" fill="currentColor" stroke="none"/>'}];
+$('icSearch').innerHTML=icon('<circle cx="7" cy="7" r="4.25"/><path d="M10.2 10.2 13.5 13.5"/>','#71717a',30);
+$('palRows').innerHTML=`<div class="a" id="palHi" style="left:14px;right:14px;border-radius:14px;background:rgba(244,244,245,.09)"></div>`+PAL_ROWS.map((r,i)=>`<div class="row" id="pr${i}" style="position:relative;padding:0 30px;height:2.1em">
+  <span style="width:1em;display:flex;justify-content:center;color:var(--fog)">${r.st?'<span class="dot" style="width:.36em;height:.36em;border:2px solid var(--steel)"></span>':icon(r.ic,'#85858f',26)}</span>
+  <span style="flex:1;color:var(--paper)">${r.t}</span>${r.h?`<span class="mono" style="font-size:.7em;color:var(--fog)">${r.h}</span>`:''}</div>`).join('');
+const QUERY='dash';
+L.cue(K.key,'key',{v:0.9}); L.cue(K.key+0.1,'key',{v:0.9}); L.cue(K.palMorph,'whoosh_out',{dur:0.4,v:0.3});
+L.cueTyping(QUERY,K.type,7); L.cue(K.sel1,'tick',{f:1700}); L.cue(K.sel2,'tick',{f:1900}); L.cue(K.enter,'click'); L.cue(K.enter+0.08,'pop',{v:0.5});
+const P=LAY.pal;
+const palW=M.track(220,[[K.palMorph,P.w]],M.MORPH), palH=M.track(110,[[K.palMorph,P.size*2.1*3+P.size*2.6+40]],M.MORPH), palR=M.track(55,[[K.palMorph,26]],M.MORPH);
+const hiY=M.track(0,[[K.sel1,1],[K.sel2,2]],M.FAST);
+function scenePal(t){
+  const el=$('pal');
+  if(t<K.key-0.1||t>K.palOut+0.5){el.style.display='none';return;}
+  el.style.display='';el.style.fontSize=P.size+'px';
+  const a=L.sp(t,K.key,[14,0.75]), out=L.eio(t,K.palOut,0.4);
+  el.style.width=palW(t)+'px';el.style.height=palH(t)+'px';el.style.borderRadius=palR(t)+'px';
+  L.place(el,VX,VY-out*30,(0.6+0.4*a)*(1-out*0.1)); el.style.opacity=(M.clamp(a*1.5)*(1-out)).toFixed(3);
+  const kv=M.vis(t,K.key,K.palMorph,{din:0,lin:0.15,lout:0.1}), kk=$('palKey');
+  if(M.apply(kk,kv)){kk.style.width=palW(t)+'px';kk.style.height=palH(t)+'px';
+    [['k1',K.key],['k2',K.key+0.1]].forEach(([id,tk])=>{const p=M.clamp(1-Math.abs(t-tk-0.04)/0.08);const e=$(id);e.style.width=e.style.height='64px';e.style.fontSize='30px';e.style.transform=`translateY(${p*4}px)`;e.style.background=p>0.2?'#26262b':'var(--recessed)';});}
+  const bv=M.vis(t,K.palMorph+0.1,null,{din:0.05,lin:0.25}), body=$('palBody');
+  if(M.apply(body,bv)){
+    const inp=$('palInput'); inp.style.height=(P.size*2.6)+'px'; inp.style.padding='0 28px';
+    const typed=L.typed(QUERY,t,K.type,7); M.setText($('palText'),typed);
+    const blink=Math.floor((t-K.type)*2.2)%2===0; $('caret').style.height=(P.size*1.1)+'px'; $('caret').style.opacity=blink?1:0.15;
+    PAL_ROWS.forEach((_,i)=>{const r=$('pr'+i),k=L.sp(t,K.type+0.15+i*0.08,[20,0.85]);r.style.opacity=typed.length>0?M.clamp(k*1.4):0;r.style.transform=`translateY(${(1-k)*10}px)`;});
+    const hi=$('palHi'), rh=P.size*2.1, enter=M.presses([K.enter])(t);
+    hi.style.top=(10+hiY(t)*rh)+'px'; hi.style.height=(rh-6)+'px'; hi.style.opacity=typed.length>0?1:0;
+    hi.style.background=t>=K.enter?`rgba(0,232,51,${(0.12+0.1*enter).toFixed(3)})`:'rgba(244,244,245,.09)';
+    $('palRows').style.position='relative';$('palRows').style.paddingTop='10px';
+  }
+}
+
+// ------------------------------------------------------------ scene 7: nothing left behind
+const QUIT=[['acme-marketing',4300],['portfolio',4301],['recipe-box',4302],['landing',4303],['dashboard',4304]];
+$('quitRows').innerHTML=QUIT.map((q,i)=>`<div class="row" id="q${i}" style="height:${LAY.quit.row}px;border-bottom:1.5px solid var(--hair);font-size:${LAY.quit.size}px">
+  <span class="dot" id="qd${i}" style="width:.4em;height:.4em"></span><span style="flex:1">${q[0]}</span><span class="mono" id="qp${i}" style="color:var(--accentText);font-size:.85em">:${q[1]}</span></div>`).join('');
+QUIT.forEach((_,i)=>{L.cue(K.qRows+i*0.07,'tick',{f:1400+i*120,v:0.3});L.cue(K.qStop+i*0.07,'blip_down',{i});});
+L.cue(K.qPill,'pop',{v:0.5}); L.cue(K.click3,'click'); L.cue(K.q1,'tick',{f:900,v:0.4});
+function sceneQuit(t){
+  const Q=LAY.quit, show=t>=K.qRows-0.1&&t<=K.quitOut+0.5;
+  ['quitRows','quitPill','quitLine1','quitLine2'].forEach(id=>$(id).style.display=show?'':'none');
+  if(!show) return;
+  const out=L.eio(t,K.quitOut,0.4);
+  const rows=$('quitRows'); rows.style.width=Q.w+'px';
+  const listH=Q.row*QUIT.length, top=VY-listH/2-70;
+  rows.style.transform=`translate(${VX-Q.w/2}px,${top-out*30}px)`; rows.style.opacity=1-out;
+  QUIT.forEach((_,i)=>{const r=$('q'+i),k=L.sp(t,K.qRows+i*0.07,[18,0.85]);r.style.opacity=M.clamp(k*1.4);r.style.transform=`translateX(${(1-k)*-24}px)`;
+    const off=t>=K.qStop+i*0.07, d=$('qd'+i);
+    d.style.background=off?'transparent':'var(--launch)'; d.style.border=off?'2.5px solid var(--steel)':'none'; d.style.boxShadow=off?'none':'0 0 0 6px rgba(0,232,51,.17)';
+    $('qp'+i).style.opacity=off?0.25:1; $('qp'+i).style.textDecoration=off?'line-through':'none';});
+  const qp=$('quitPill'), pk=L.sp(t,K.qPill,[14,0.8]), press=M.presses([K.click3])(t);
+  qp.style.fontSize=Q.size+'px'; qp.style.height=(Q.size*2.2)+'px'; qp.style.padding='0 28px';
+  const py=top+listH+60;
+  L.place(qp,VX,py+qp.offsetHeight/2-out*30,(0.8+0.2*pk)*(1-0.05*press)); qp.style.opacity=M.clamp(pk*1.5)*(1-out);
+  cursorTarget.quit=[VX-30,py+qp.offsetHeight*0.62];
+  [['quitLine1',K.q1,Q.size],['quitLine2',K.q2,Q.size*0.72]].forEach(([id,t0,s],i)=>{const el=$(id),k=L.sp(t,t0,[15,0.9]);el.style.fontSize=s+'px';
+    el.style.display=t<t0?'none':'';L.place(el,VX,py+qp.offsetHeight+60+i*(Q.size*1.5)+(1-k)*20-out*30);el.style.opacity=M.clamp(k*1.4)*(1-out);});
+}
+
+// ------------------------------------------------------------ cursor
+const cursorTarget={};
+function cursor(t){
+  const c=$('cursor');
+  const segs=[
+    {t0:10.7,t1:12.5,keys:()=>[[10.7,VX+LAY.scan.pill[0]*0.9,VY+260],[11.2,VX+40,VY+18],[11.45,VX+40,VY+18],[12.3,VX+LAY.scan.card[0]*0.42,VY+LAY.scan.card[1]*0.42]],clicks:[K.click1]},
+    {t0:16.7,t1:18.9,keys:()=>{const p=toScreen(K.click2,act[0]+act[2]*0.55,act[1]+act[3]*0.62);return [[16.7,p[0]+240,p[1]+200],[17.35,p[0],p[1]],[17.7,p[0],p[1]],[18.7,p[0]+60,p[1]+90]];},clicks:[K.click2]},
+    {t0:24.2,t1:25.8,keys:()=>{const p=cursorTarget.fix?cursorTarget.fix():[VX,VY];return [[24.2,p[0]+220,p[1]+160],[24.75,p[0],p[1]],[25.0,p[0],p[1]],[25.7,p[0]+50,p[1]+80]];},clicks:[K.clickA]},
+    {t0:34.45,t1:35.9,keys:()=>{const p=cursorTarget.quit||[VX,VY];return [[34.45,p[0]+240,p[1]+160],[34.85,p[0],p[1]],[35.1,p[0],p[1]],[35.8,p[0]+40,p[1]+70]];},clicks:[K.click3]}
+  ];
+  const s=segs.find(s=>t>=s.t0-0.05&&t<=s.t1+0.25);
+  if(!s){c.style.display='none';return;}
+  c.style.display='';
+  const keys=s.keys(), p=M.path(keys)(t), press=M.presses(s.clicks)(t);
+  const o=M.clamp((t-s.t0)/0.2)*M.clamp((s.t1+0.2-t)/0.25);
+  c.style.width=(L.portrait?54:44)+'px';
+  c.style.transform=`translate(${(p.x-3).toFixed(1)}px,${(p.y-3).toFixed(1)}px) scale(${(1-0.13*press).toFixed(4)})`; c.style.opacity=o.toFixed(3);
+}
+
+L.film({T, bg:'#09090b', audio:'assets/soundtrack.wav', grain:{amount:0.075}, vignette:0.6, render:t=>{
+  sceneMess(t); sceneMark(t); heads(t); sceneScan(t); sceneWin(t); sceneFix(t); scenePal(t); sceneQuit(t); cursor(t);
+}});
+</script>

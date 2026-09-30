@@ -1,0 +1,22 @@
+@font-face{font-family:'Geist';src:url(data:font/woff2;base64,__GEIST__) format('woff2');font-weight:100 900}
+@font-face{font-family:'Geist Mono';src:url(data:font/woff2;base64,__GEISTMONO__) format('woff2');font-weight:100 900}
+@font-face{font-family:'DM Sans';src:url(data:font/woff2;base64,__DMSANS__) format('woff2');font-weight:300 700}
+html,body{margin:0;background:#09090b;overflow:hidden}
+body.preview{height:100vh;background:#111}
+#wrap{position:relative;transform-origin:50% 50%}
+body.preview #wrap{position:fixed;left:50%;top:calc(50% - 26px)}
+#stage{position:relative;overflow:hidden;font-family:var(--font,'Geist'),system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#f4f4f5;font-feature-settings:"tnum" 1}
+.a{position:absolute;left:0;top:0}
+.mono{font-family:'Geist Mono',ui-monospace,monospace}
+.mask{overflow:hidden;display:block}
+.mask>span{display:inline-block;will-change:auto}
+svg{display:block;overflow:visible}
+#lev-grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;z-index:50;background-repeat:repeat}
+#lev-vignette{position:absolute;inset:0;pointer-events:none;z-index:49;background:radial-gradient(120% 90% at 50% 45%,transparent 45%,rgba(0,0,0,.85) 100%)}
+#cursor{position:absolute;left:0;top:0;width:44px;height:auto;transform-origin:3px 3px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));z-index:40}
+#lev-bar{position:fixed;left:0;right:0;bottom:0;height:48px;display:flex;align-items:center;gap:12px;padding:0 16px;background:#18181b;color:#a1a1aa;font:13px system-ui;border-top:1px solid #26262b}
+#lev-bar button{background:#27272a;color:#f4f4f5;border:0;border-radius:8px;padding:6px 12px;font:inherit}
+#lev-bar input{flex:1;accent-color:#00e833}
+#lev-bar a{color:#a1a1aa;text-decoration:none;padding:4px 8px;border-radius:6px}
+#lev-bar a.on{background:#00e833;color:#09090b}
+body.render #lev-bar{display:none}
