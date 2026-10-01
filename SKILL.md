@@ -1,95 +1,829 @@
 ---
 name: l-evate
-description: Make launch films, product explainers and social cuts as motion graphics drawn in code, with a soundtrack synthesised from the same timeline. Merges the RISE method (References, Idea, Style, Examine) with the motion-broll engine (pure seek(t), closed-form springs, sub-frame motion blur) and adds multi-format recomposition, cue-driven audio, film texture and real-screenshot references. Use when asked for a motion graphic, launch video, promo, explainer, animated demo, social cut, or jingle for a product.
+description: Create exceptional launch films, product explainers, branded motion systems, social cuts, visual essays, interface films, cinematic promos, and experimental motion graphics drawn in code. L-evate provides a deterministic rendering engine, real-product grounding, synchronized sound, multi-format recomposition, and an examination loop — but the creative direction is intentionally open. Use when asked to make motion graphics, launch videos, promos, explainers, animated demos, social cuts, showreels, kinetic typography, product films, or experimental branded motion.
 ---
 
 # L-evate
 
-One `render(t)` function draws every frame. The same file registers every
-sound with `L.cue()`, so picture and sound cannot drift. One page renders to
-16:9, 9:16, 1:1 and 4:5 by recomposing, never cropping.
+L-evate is a creative motion system, not a style template.
 
-`$SKILL` = this folder. Work in a `motion/` (or `marketing/<film>/`) folder in the user's project.
+Its job is to give the model a reliable technical instrument while preserving as much creative authorship as possible.
 
-## 0. Setup (once per project)
+One `render(t)` function draws every frame. The same file may register sound with `L.cue()`, so picture and sound can remain synchronized. A single scene may render to 16:9, 9:16, 1:1, and 4:5 through true recomposition rather than simple cropping.
+
+`$SKILL` = this folder. Work in a `motion/` or `marketing/<film>/` directory inside the user's project.
+
+---
+
+## 0. Creative doctrine
+
+Do not begin by imitating previous L-evate films.
+
+Begin by understanding the product, brand, audience, objective, and available material. Then invent the strongest visual solution for this specific project.
+
+The model has broad authorship over:
+
+- visual concept;
+- story structure;
+- composition;
+- pacing;
+- transition language;
+- camera logic;
+- typography;
+- hierarchy;
+- color behavior;
+- texture;
+- dimensionality;
+- rhythm;
+- visual metaphors;
+- sound design;
+- scene density;
+- interface treatment;
+- degree of abstraction;
+- use of real product footage;
+- use of live-action or generated assets when the project permits them;
+- the balance between UI, typography, symbols, diagrams, environments, data, imagery, and pure motion.
+
+L-evate should not force a recognizable "L-evate look."
+
+The quality bar is:
+
+> Make the strongest piece that could reasonably exist for this product and objective, using the available evidence, assets, runtime, and time.
+
+The engine is a capability layer. The creative direction belongs to the model.
+
+---
+
+## 1. Hard constraints vs creative choices
+
+### Hard constraints
+
+These protect truth, reproducibility, usability, and rendering integrity.
+
+- Do not invent product features, claims, customer results, benchmark numbers, interfaces, or logos and present them as real.
+- Use actual brand assets when they exist.
+- Prefer real product screenshots, recordings, DOM measurements, or source-backed UI over fabricated representations when demonstrating actual product behavior.
+- Clearly distinguish conceptual / illustrative visuals from literal product UI.
+- Keep each frame valid when seeked directly at time `t`.
+- Ensure critical text is readable long enough for the intended viewing context.
+- Inspect output before final render.
+- Verify all requested formats.
+- Preserve audio/video sync.
+- Do not expose private information, credentials, unrelated user content, or sensitive data from captures.
+- Do not claim a metric unless it is supplied or measured.
+- Do not silently crop a composition designed for another aspect ratio when recomposition is practical.
+
+### Creative choices
+
+These are **not rules**. Choose them only when they serve the concept.
+
+- dark or light backgrounds;
+- one accent or many;
+- grain or pristine rendering;
+- vignette or no vignette;
+- springs, easing, linear motion, stepped motion, ballistic motion, simulation, procedural motion, or stillness;
+- cursor-driven UI;
+- mask-rise typography;
+- quiet layouts;
+- dense layouts;
+- flat graphics;
+- dimensional graphics;
+- 2D, 2.5D, faux-3D, CSS 3D, canvas, SVG, DOM, image sequences, video plates, or mixtures;
+- realistic product demo;
+- abstract visual metaphor;
+- cinematic storytelling;
+- kinetic typography;
+- infographic logic;
+- editorial design;
+- brutalist motion;
+- restrained enterprise motion;
+- playful motion;
+- high-energy showreel pacing;
+- ambient pacing;
+- continuous camera movement;
+- hard cuts;
+- morphs;
+- wipes;
+- match cuts;
+- object transformations;
+- split screens;
+- spatial transitions;
+- repeated motifs;
+- visual chaos followed by order;
+- any other coherent visual language the model can implement reliably.
+
+Previous examples are references, not templates.
+
+---
+
+## 2. Creative modes
+
+Before building, infer the appropriate creative mode. Do not ask the user to choose unless the brief is genuinely ambiguous.
+
+### OPEN mode — default
+
+Maximum creative authorship.
+
+Use when the user asks for:
+- best possible launch film;
+- showreel-quality work;
+- "push it";
+- premium motion;
+- an original campaign;
+- an immersive product film;
+- an experimental or cinematic piece.
+
+In OPEN mode:
+- explore multiple visual directions mentally before committing;
+- do not inherit prior L-evate scene grammar unless it is clearly the strongest answer;
+- allow composition, typography, palette, transitions, and pacing to emerge from the project;
+- use the engine's capabilities beyond the documented examples when useful;
+- write helper functions or project-local rendering utilities when needed.
+
+### BRAND mode
+
+Creative freedom inside an existing design system.
+
+Use when:
+- the product already has strong visual language;
+- brand fidelity matters more than stylistic novelty.
+
+Extract:
+- color;
+- type;
+- spacing;
+- iconography;
+- logo behavior;
+- interaction style;
+- imagery;
+- voice;
+- product geometry.
+
+Then extend that language into motion rather than replacing it.
+
+### DEMO mode
+
+Clarity of product behavior comes first.
+
+Use:
+- real screenshots;
+- screen recordings;
+- measured rects;
+- precise focus;
+- camera crops;
+- callouts;
+- state changes;
+- UI choreography.
+
+Visual invention should make the product easier to understand, not obscure it.
+
+### HOUSE mode
+
+Only use when the user explicitly wants the established L-evate aesthetic or a prior project's style.
+
+HOUSE mode may use:
+- restrained accent colors;
+- spring motion;
+- mask-rise type;
+- cursor-led interaction;
+- film grain;
+- vignette;
+- quiet backgrounds;
+- familiar L-evate scene grammar.
+
+These are a preset, not the default.
+
+---
+
+## 3. R: References — understand before designing
+
+References are evidence and creative fuel, not shackles.
+
+Study:
+
+### Brand
+- source tokens;
+- CSS variables;
+- fonts;
+- icons;
+- logo assets;
+- illustrations;
+- photography;
+- product screenshots;
+- website;
+- marketing language;
+- prior campaigns.
+
+### Product
+Capture or inspect the real product when possible.
+
+For web:
+- browser screenshots;
+- DOM geometry;
+- interaction states;
+- before/after states;
+- component behavior.
+
+For desktop:
+- controlled harness;
+- seeded fixtures;
+- safe temporary user data;
+- non-focus-stealing capture;
+- real UI state.
+
+For video or live-action:
+- identify strong usable moments;
+- inspect sharpness;
+- inspect camera movement;
+- preserve continuity;
+- protect privacy.
+
+### Competitive / cultural reference
+When appropriate, study:
+- film titles;
+- broadcast packages;
+- premium product launches;
+- architecture;
+- editorial motion;
+- music videos;
+- game UI;
+- industrial visualization;
+- scientific visualization;
+- title sequences;
+- luxury advertising;
+- interface cinema;
+- motion identity systems.
+
+Do not copy a reference literally. Extract principles.
+
+### Facts
+Verify:
+- product claims;
+- UI copy;
+- metrics;
+- supported platforms;
+- performance claims;
+- pricing;
+- feature names.
+
+---
+
+## 4. I: Idea — find the strongest organizing concept
+
+Do not force every film into the same arc.
+
+Possible structures include:
+
+- problem → transformation → proof;
+- cold open → escalation → reveal;
+- one continuous transformation;
+- a visual metaphor that evolves;
+- product walkthrough;
+- parallel worlds;
+- before/after;
+- countdown;
+- journey through a system;
+- zoom from macro to micro;
+- information cascade;
+- object assembly;
+- reverse engineering;
+- spatial tour;
+- manifesto;
+- rhythmic montage;
+- single-take illusion;
+- chaptered showreel;
+- narrative scene;
+- visual argument;
+- pure sensory brand film.
+
+Before coding, define:
+
+`time | purpose | visual idea | change | sound | evidence/source`
+
+The beat table is a planning tool, not a requirement that every beat contain only one visual change.
+
+Multiple simultaneous changes are allowed when they are intentional, legible, and rhythmically controlled.
+
+Ask internally:
+
+- What is the most memorable visual idea here?
+- What could only this product say?
+- What visual metaphor makes the value instantly understandable?
+- What can move, transform, assemble, fracture, reveal, accelerate, or reorganize?
+- Where should the film surprise the viewer?
+- What should remain still?
+- What deserves scale?
+- What can be demonstrated instead of explained?
+- What visual payoff justifies the setup?
+
+---
+
+## 5. S: Style — invent, don't inherit
+
+State the chosen visual language in one concise paragraph before implementation.
+
+Include only what actually matters:
+- spatial logic;
+- palette;
+- typography;
+- texture;
+- dimensionality;
+- motion behavior;
+- camera behavior;
+- compositional density;
+- imagery;
+- sound character.
+
+Do not default to:
+- dark background;
+- one accent;
+- vignette;
+- grain;
+- springs;
+- cursor;
+- mask-rise headlines.
+
+Use those only if they improve the project.
+
+A strong style may contain contradictions:
+- pristine UI inside rough live-action;
+- brutal typography over elegant product imagery;
+- silent stillness followed by violent acceleration;
+- dense data visualization with minimal copy;
+- bright daylight with severe black type;
+- photoreal product footage interrupted by abstract diagrams.
+
+Coherence matters more than conformity.
+
+---
+
+## 6. Build
+
+Create `scenes/<name>.html` plus assets as needed.
+
+Minimal skeleton:
+
+```html
+<title>…</title>
+<style>…</style>
+
+<div data-slot="stage">
+  …
+</div><!--/stage-->
+
+<script>
+const K = { … };
+
+L.film({
+  T: 10,
+  render: t => {
+    // The frame is a pure function of t.
+  }
+});
+</script>
+```
+
+Runtime:
+- `L.pick`
+- `L.seg`
+- `L.sp`
+- `L.typed`
+- `L.count`
+- `L.rng`
+- `L.rise`
+- `L.place`
+- `L.cue`
+- `L.cueTyping`
+- `L.film`
+
+motion-broll primitives:
+- `M.track`
+- `M.ctrack`
+- `M.vis/apply`
+- `M.path`
+- `M.presses`
+
+These are primitives, not boundaries.
+
+You may also use ordinary browser capabilities when useful:
+- SVG;
+- Canvas;
+- CSS transforms;
+- CSS 3D;
+- filters;
+- masks;
+- clip paths;
+- gradients;
+- blend modes;
+- custom easing;
+- procedural geometry;
+- image sequences;
+- video frames;
+- WebGL-compatible browser approaches if the render pipeline remains deterministic;
+- project-local JS helpers.
+
+If a creative idea requires a capability that does not exist, extend the project locally rather than abandoning the idea prematurely.
+
+Do not modify the core engine unless the new capability is general enough to benefit future projects.
+
+---
+
+## 7. Composition across formats
+
+Treat each aspect ratio as its own composition sharing one conceptual timeline.
+
+Supported targets commonly include:
+- 16:9;
+- 9:16;
+- 1:1;
+- 4:5.
+
+Do not assume:
+- the same camera;
+- the same scale;
+- the same text placement;
+- the same number of visible elements;
+- the same spatial relationship.
+
+Recompose.
+
+The vertical version may legitimately use different staging from the horizontal version while preserving the same idea and timing.
+
+---
+
+## 8. Typography
+
+Typography is a motion material, not merely captions.
+
+Possible uses:
+- monumental words;
+- micro labels;
+- kinetic type;
+- type as mask;
+- type as environment;
+- type following paths;
+- variable hierarchy;
+- staggered letters;
+- scrolling fields;
+- dimensional type;
+- typographic transitions;
+- sparse supers;
+- no text at all.
+
+Requirements:
+- important text must be readable;
+- avoid accidental clipping;
+- avoid unintended orphans;
+- preserve brand type when brand fidelity requires it.
+
+There is no universal minimum hold time. Duration should reflect:
+- word count;
+- hierarchy;
+- movement;
+- viewing platform;
+- expected reading speed.
+
+Use judgment and verify by watching.
+
+---
+
+## 9. Motion
+
+No motion primitive is universally superior.
+
+Use:
+- springs;
+- cubic easing;
+- linear motion;
+- acceleration;
+- deceleration;
+- constant velocity;
+- stepped motion;
+- physically modeled movement;
+- overshoot;
+- inertia;
+- elastic motion;
+- vibration;
+- orbit;
+- parallax;
+- camera movement;
+- scaling;
+- rotation;
+- path following;
+- deformation;
+- masking;
+- morphing;
+- frame-by-frame state changes;
+- deliberate stillness.
+
+"Linear motion is bad" is not a rule.
+
+Linear motion is often correct for:
+- machinery;
+- conveyor systems;
+- scans;
+- progress;
+- camera trucks;
+- timelines;
+- data streams;
+- controlled technical diagrams.
+
+Choose motion according to meaning.
+
+---
+
+## 10. Sound
+
+Sound can come from the same cue timeline, but it does not need to place a sound on every visible change.
+
+Design the soundscape intentionally.
+
+Possible layers:
+- silence;
+- room tone;
+- synth cues;
+- UI foley;
+- impacts;
+- rhythm;
+- drones;
+- tonal beds;
+- music;
+- user-supplied tracks;
+- licensed assets when permitted;
+- recorded sound;
+- voice.
+
+Use `L.cue()` when synchronized procedural sound is useful.
+
+Available synthesized voices include:
+- key;
+- click;
+- tick;
+- pop;
+- thud;
+- whoosh;
+- whoosh_in;
+- whoosh_out;
+- sub;
+- ding;
+- blip_down;
+- swell;
+- jingle;
+- chord;
+- drone.
+
+Audio should support the film's concept, not demonstrate that the cue engine exists.
+
+---
+
+## 11. E: Examine — challenge the work
+
+Examination is mandatory. Style conformity is not.
+
+Build preview:
+
+```bash
+python3 $SKILL/engine/build.py dist scenes/<name>.html
+open "dist/<name>.html?fmt=16x9"
+```
+
+Generate still sheets:
+
+```bash
+NODE_PATH=./node_modules node $SKILL/engine/stills.js dist/<name>.html work/check.png --fmt 16x9
+NODE_PATH=./node_modules node $SKILL/engine/stills.js dist/<name>.html work/beats.png --fmt 9x16 2.1 2.6 …
+```
+
+Check:
+
+### Truth
+- Is every factual claim supported?
+- Is real product UI represented honestly?
+- Are numbers real?
+- Are logos correct?
+
+### Composition
+- Does each frame have a deliberate focal hierarchy?
+- Are important elements legible?
+- Are edges, crops, and safe areas intentional?
+- Does the composition make sense in every requested format?
+
+### Motion
+- Does the motion communicate the intended feeling?
+- Are transitions motivated?
+- Does anything move only because the engine makes it easy?
+- Is there enough contrast between motion and stillness?
+
+### Story
+- Can a viewer understand the central idea?
+- Is there escalation, progression, contrast, discovery, or another intentional structure?
+- Does the ending earn its payoff?
+
+### Originality
+- Does this feel like the best solution to this brief, or like a previous L-evate film with different branding?
+- Which scene is visually unexpected?
+- Is there at least one memorable visual idea?
+- Did the model exploit the subject matter or merely decorate it?
+
+### Craft
+- no accidental clipping;
+- no stale hidden elements;
+- no privacy leaks;
+- no broken seek states;
+- no unintended frame discontinuities;
+- no invalid format recomposition;
+- no audio drift.
+
+Then watch the film at speed. Still sheets do not reveal rhythm.
+
+Iterate until the piece feels authored rather than assembled.
+
+---
+
+## 12. Creative self-critique loop
+
+For ambitious work, use this internal loop before final rendering:
+
+### Pass 1 — Concept
+Generate at least three substantially different conceptual directions mentally.
+
+Reject the weakest.
+
+### Pass 2 — Distinctiveness
+Ask:
+- Could this exact treatment advertise a different software product with only the logo changed?
+
+If yes, redesign.
+
+### Pass 3 — Product truth
+Replace generic motion with product-specific behavior, geometry, language, data, or workflow.
+
+### Pass 4 — Escalation
+Ensure the strongest visual idea is not spent in the first few seconds unless the concept deliberately demands it.
+
+### Pass 5 — Restraint
+Remove effects that do not improve comprehension, emotion, rhythm, or memorability.
+
+### Pass 6 — Surprise
+Find one moment the viewer is unlikely to predict from the opening frame.
+
+### Pass 7 — Finish
+Inspect every format and final audio.
+
+---
+
+## 13. Render
+
+```bash
+NODE_PATH=./node_modules node $SKILL/engine/render.js \
+  dist/<name>.html \
+  out/<name>-16x9.mp4 \
+  --fmt 16x9 \
+  --fps 30 \
+  --audio dist/assets/soundtrack.wav
+```
+
+The renderer can blend multiple sub-frames per output frame for motion blur.
+
+Use motion blur when appropriate.
+
+Do not assume every aesthetic needs it.
+
+For intentionally crisp UI, stop-motion, pixel art, technical diagrams, or stepped animation, fewer subframes may be visually stronger.
+
+---
+
+## 14. Learn without becoming stylistically trapped
+
+Read `LEARNINGS.md` before every project.
+
+Its purpose is to remember:
+- rendering bugs;
+- capture failures;
+- privacy hazards;
+- performance constraints;
+- audio mistakes;
+- composition failures;
+- implementation techniques.
+
+Do **not** interpret prior project learnings as a mandatory visual style.
+
+After each project, append:
+- technical lessons;
+- failed approaches;
+- successful project-specific techniques;
+- performance measurements;
+- reusable engineering insights.
+
+When recording aesthetic observations, label them as project-specific unless they are genuinely universal.
+
+Example:
+
+Bad:
+> Always use one accent color.
+
+Better:
+> For the DevLaunchr film, limiting green to state changes kept the dense dark UI readable.
+
+---
+
+## 15. Examples
+
+The examples are demonstrations of what is possible, not templates to emulate.
+
+Use them to learn:
+- deterministic scene construction;
+- responsive layout;
+- real screenshot integration;
+- timeline organization;
+- audio synchronization;
+- asset handling;
+- rendering techniques.
+
+Do not copy their:
+- pacing;
+- scene sequence;
+- palette;
+- typography;
+- transition grammar;
+- headline structure;
+- composition.
+
+unless the brief specifically benefits from those choices.
+
+---
+
+## 16. Engine philosophy
+
+L-evate should expand the model's range, not shrink it.
+
+The engine provides:
+- deterministic time;
+- browser rendering;
+- multi-format output;
+- reproducible motion;
+- synchronized audio;
+- product-grounded assets;
+- inspection;
+- iteration.
+
+Everything else should remain open to invention.
+
+When there is tension between:
+1. a stylistic convention in an old example, and
+2. a stronger concept for the current project,
+
+choose the stronger concept.
+
+When there is tension between:
+1. creative freedom, and
+2. truth, privacy, legibility, or render integrity,
+
+protect truth, privacy, legibility, and render integrity.
+
+---
+
+## 17. Setup
 
 ```bash
 mkdir -p motion/{scenes/assets,dist,out,work} && cd motion
-echo '{"private":true}' > package.json && npm install playwright && npx playwright install chromium
-```
-Needs Node 18+, Python 3 with numpy, ffmpeg (libx264, aac).
-
-## 1. R: References (never draw from memory)
-
-- **Brand**: take the product's own tokens (colours, fonts, logo) from its code, or pull a site's with Firecrawl `formats:["branding"]` (`scripts/brand.sh`). Use the real logo or app icon file. Never redraw a logo.
-- **Product**: capture real screenshots from the running product. For an Electron app, boot the built main process in a harness with a throwaway `userData`/`home`, seeded fixtures and `setVersion()`, and never let its window take focus (see LEARNINGS). Capture **before/after pairs of the same view** plus `getBoundingClientRect()` rects × DPR. A masked crossfade between them is a real state change, not a mock.
-- **Facts**: only show numbers you measured or the user supplied. Measure them (test counts, scan times) when you can. Use the product's own copy for any UI you redraw, and grep the source to confirm it.
-
-## 2. I: Idea (one arc, one change per beat)
-
-Write a beat table before code: `time | headline | visual | the one change | sound`.
-- Launch film (30–45s): problem → mark → 4–6 capability beats → end card with URL.
-- Loop (8–12s): beginning, one change, and an end that lands exactly on the first frame.
-- Hold every line of text ≥1.2s (≥1.4s for headlines). Put a sound on every change.
-
-## 3. S: Style
-
-State it in one line: ground, ink, one accent, font, texture, pace, and what moves first.
-Defaults: the product's own dark surface, film grain (`grain`), vignette light fall-off, spring motion (`M.MORPH/FAST/SLOW`), mask-rise headlines, the cursor drives every UI change, and the accent stays under ~10% of the frame.
-Banned: invented features or numbers, fake logos, linear motion, flat fills, particle/glow soup, template look.
-
-## 4. Build
-
-Write `scenes/<name>.html` (a fragment) plus `scenes/assets/`. Skeleton:
-
-```html
-<title>…</title><style>…</style>
-<div data-slot="stage"> …elements… </div><!--/stage-->
-<script>
-const LAY=L.pick({'16x9':{…}, tall:{…}, default:{…}});   // recompose per format
-const K={intro:0.4, click:2.1, …};                        // the timeline, in seconds
-L.cue(K.click,'click'); L.cue(K.click+0.5,'ding');        // sound lives next to picture
-L.cueTyping('npm run dev', 1.0, 30);                      // one key sound per character
-L.film({T:10, bg:'#09090b', audio:'assets/soundtrack.wav', grain:{amount:0.07}, vignette:0.6,
-  render:t=>{ /* pure function of t: set styles only */ }});
-</script>
-```
-Runtime (`engine/lev.js`, on top of `engine/motion.js`): `L.pick`, `L.seg`, `L.sp` (spring 0→1), `L.typed`, `L.count`, `L.rng` (seeded), `L.rise` (mask-rise text), `L.place`, `L.cue`, `L.cueTyping`, `L.film`. The engine's `M.track`, `M.ctrack`, `M.vis/apply`, `M.path`, `M.presses` all work. See `reference/engine-api.md` (motion-broll) for patterns.
-
-```bash
-python3 $SKILL/engine/build.py dist scenes/<name>.html          # self-contained page + assets
-open "dist/<name>.html?fmt=9x16"                                  # preview with scrubber and sound
+echo '{"private":true}' > package.json
+npm install playwright
+npx playwright install chromium
 ```
 
-## 5. E: Examine (before rendering video)
+Requirements:
+- Node 18+;
+- Python 3;
+- NumPy;
+- ffmpeg with libx264 and AAC;
+- Chromium through Playwright.
 
-```bash
-NODE_PATH=./node_modules node $SKILL/engine/stills.js dist/<name>.html work/check.png --fmt 16x9        # 0/25/50/75/100%
-NODE_PATH=./node_modules node $SKILL/engine/stills.js dist/<name>.html work/beats.png --fmt 9x16 2.1 2.6 …
-```
-Look at every sheet, in every format. Check the ten tells in `reference/checklist.md`, fix, and look again.
+---
 
-## 6. Sound
+## 18. Files
 
-`stills.js` writes `<out>.cues.json` from the page. Then:
-```bash
-python3 $SKILL/engine/audio.py work/check.cues.json scenes/assets/soundtrack.wav --T 42 [--loop]
-```
-Voices: key, click, tick, pop, thud, whoosh(_in/_out), sub, ding, blip_down, swell, jingle `{notes,step,big}`, chord `{chord,until}`, drone `{until}`. Every voice is levelled explicitly (`PEAK`/`RMS` tables), then mastered to −16 LUFS with a look-ahead limiter. Check it with `ffmpeg -af ebur128` and a `showwavespic` image. Use `--loop` for loops: it folds the tail onto the start.
+- `engine/motion.js` — motion-broll primitives.
+- `engine/lev.js` — L-evate runtime.
+- `engine/build.py` — self-contained scene build.
+- `engine/render.js` — frame/video renderer.
+- `engine/stills.js` — inspection sheets.
+- `engine/audio.py` — procedural sound generation.
+- `engine/base.css` — runtime base styles.
+- `engine/fonts/` — bundled fonts.
+- `reference/checklist.md` — legacy craft checklist; use technical checks, not stylistic rules, unless HOUSE mode is intended.
+- `LEARNINGS.md` — accumulated technical and project-specific lessons.
+- `examples/` — implementation references and quality demonstrations.
+- `CREDITS.md` — sources and licenses.
 
-## 7. Render
+---
 
-```bash
-NODE_PATH=./node_modules node $SKILL/engine/render.js dist/<name>.html out/<name>-16x9.mp4 --fmt 16x9 --fps 30 --audio dist/assets/soundtrack.wav
-```
-Four sub-frames per frame (180° shutter) are blended into motion blur. Formats render in parallel on a multi-core machine. For transparent overlay panels, use motion-broll's own `render.js` (ProRes 4444).
+# Final directive
 
-## Files
+Do not ask, "What does an L-evate video look like?"
 
-- `engine/motion.js`: motion-broll engine (MIT), unchanged.
-- `engine/lev.js`: film runtime (formats, cues, texture, preview player).
-- `engine/build.py`, `render.js`, `stills.js`, `audio.py`, `base.css`, `fonts/` (Geist, Geist Mono, DM Sans; OFL).
-- `reference/checklist.md`: the ten tells and five-frame check.
-- `LEARNINGS.md`: **read it first and append to it after every project.**
-- `examples/`: finished films to use as a quality bar.
-- `CREDITS.md`: sources and licences.
+Ask:
+
+> "What is the strongest motion-design idea for this exact product, audience, objective, and material — and how can L-evate make that idea real?"
+
+The engine should disappear behind the work.
