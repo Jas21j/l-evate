@@ -1,0 +1,393 @@
+<title>L-evate — the film</title>
+<style>
+:root{--ink:#09090b;--paper:#f4f4f5;--ash:#a1a1aa;--fog:#71717a;--steel:#52525b;--raised:#18181b;--recessed:#111113;--hair:#26262b;
+  --accent:#00e833;--accentText:#3aef64;--danger:#f07e75;--font:'DM Sans'}
+#stage{font-family:'DM Sans',system-ui,sans-serif}
+.g{color:var(--accentText)}
+.head{position:absolute;left:0;top:0;font-weight:600;letter-spacing:-.03em;line-height:1.1;color:var(--paper)}
+.head .mask{padding-bottom:.1em;margin-bottom:-.1em}
+.panel{position:absolute;left:0;top:0;width:980px;transform-origin:50% 50%}
+.card{background:var(--raised);border:1.5px solid var(--hair);border-radius:24px;box-shadow:0 30px 80px -30px rgba(0,0,0,.85);overflow:hidden;position:relative}
+.code{font-family:'Geist Mono',monospace;font-size:26px;line-height:1.7;padding:30px 36px;white-space:pre;color:var(--ash)}
+.code .k{color:var(--paper)} .code .s{color:var(--accentText)} .code .c{color:var(--steel)} .code .n{color:#e8b35c}
+.mono{font-family:'Geist Mono',monospace}
+.lbl{font-family:'Geist Mono',monospace;color:var(--fog);font-size:20px;letter-spacing:.02em}
+.bar{height:1.5px;background:var(--hair)}
+.chip{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 22px;border-radius:999px;border:1.5px solid var(--hair);font-family:'Geist Mono',monospace;font-size:24px;color:var(--ash);background:var(--recessed)}
+.word{position:absolute;left:0;top:0;font-weight:600;letter-spacing:-.045em;white-space:nowrap;color:var(--paper);line-height:1.1}
+.sub{position:absolute;left:0;top:0;color:var(--ash);white-space:nowrap}
+.dot{border-radius:50%;flex:none}
+.row{display:flex;align-items:center;gap:16px;white-space:nowrap}
+</style>
+
+<div data-slot="stage">
+  <!-- headlines -->
+  <div class="head" id="hCrop"><span class="mask"><span>Crop for vertical,</span></span><span class="mask"><span><span style="color:var(--danger)">lose the story.</span></span></span></div>
+  <div class="head" id="hFn"><span class="mask"><span>One function</span></span><span class="mask"><span>draws <span class="g">every frame.</span></span></span></div>
+  <div class="head" id="hSnd"><span class="mask"><span>Sound from</span></span><span class="mask"><span>the <span class="g">same timeline.</span></span></span></div>
+  <div class="head" id="hFmt"><span class="mask"><span>Every format,</span></span><span class="mask"><span class="g">recomposed.</span></span></div>
+  <div class="head" id="hEx"><span class="mask"><span>Check every frame</span></span><span class="mask"><span><span class="g">before</span> you render.</span></span></div>
+  <div class="head" id="hPipe"><span class="mask"><span>From brief to MP4,</span></span><span class="mask"><span>in <span class="g">one skill.</span></span></span></div>
+
+  <!-- 1. the crop -->
+  <div class="panel" id="pCrop">
+    <div class="card" id="cropBox" style="border-radius:18px">
+      <img id="cropImg" src="assets/dl-13.3.jpg" style="display:block;width:980px">
+      <div id="dimL" class="a" style="background:rgba(5,5,7,.86)"></div>
+      <div id="dimR" class="a" style="background:rgba(5,5,7,.86)"></div>
+      <div id="cropWin" class="a" style="border:3px solid var(--paper);border-radius:6px;box-sizing:border-box"></div>
+    </div>
+    <div id="cropChip" class="a chip" style="color:var(--paper);background:var(--raised)">9:16 crop</div>
+    <div id="cropLost" class="a lbl" style="color:var(--danger);white-space:nowrap">headline: cropped out</div>
+  </div>
+  <div id="flash" class="a dot" style="width:18px;height:18px;background:var(--accent)"></div>
+
+  <!-- 2. the mark (also the end card) -->
+  <div id="wm" class="word"><span class="mask" style="padding-bottom:.12em;margin-bottom:-.12em"><span>L<span class="g">-</span>evate</span></span></div>
+  <div id="tag" class="sub">Motion graphics, drawn in code.</div>
+  <div id="tag2" class="sub mono" style="color:var(--fog)">open-source media engine · Claude Code skill</div>
+  <div id="endFree" class="sub">Free and open source · MIT</div>
+  <div id="endUrl" class="sub mono" style="color:var(--accentText)">github.com/Jas21j/l-evate</div>
+  <div id="endNote" class="sub mono" style="color:var(--steel)">This film was drawn in code with L-evate.</div>
+
+  <!-- 3. one function -->
+  <div class="panel" id="pFn">
+    <div class="card"><div class="code" id="fnCode"><span class="k">L.film</span>({ T: <span class="n">41</span>, <span class="k">render</span>: t =&gt; {
+  <span class="k">const</span> a = <span class="k">L.sp</span>(t, <span class="n">0.2</span>);   <span class="c">// spring 0 → 1</span>
+  <span class="k">L.place</span>(card, <span class="n">960</span>, <span class="n">540</span> + (<span class="n">1</span> - a) * <span class="n">120</span>);
+}});</div>
+      <div class="bar"></div>
+      <div style="display:flex;gap:28px;padding:26px 36px 30px">
+        <div style="flex:1;position:relative">
+          <svg id="fnChart" width="640" height="230" viewBox="0 0 640 230"></svg>
+        </div>
+        <div style="width:200px;position:relative;height:230px;border-radius:16px;background:var(--recessed);border:1.5px solid var(--hair);overflow:hidden">
+          <div id="fnPill" class="a" style="left:30px;width:140px;height:62px;border-radius:14px;background:var(--paper);box-shadow:0 12px 30px -10px rgba(0,0,0,.8)"></div>
+        </div>
+      </div>
+      <div class="bar"></div>
+      <div style="display:flex;align-items:center;gap:22px;padding:24px 36px">
+        <span class="mono" id="fnT" style="font-size:24px;color:var(--paper);width:270px">t = 0.00 s</span>
+        <div id="fnTrack" style="flex:1;height:8px;border-radius:4px;background:var(--hair);position:relative">
+          <div id="fnFill" class="a" style="height:8px;border-radius:4px;background:var(--accent)"></div>
+          <div id="fnKnob" class="a dot" style="width:30px;height:30px;top:-11px;background:var(--paper);box-shadow:0 0 0 6px rgba(0,232,51,.25)"></div>
+        </div>
+      </div>
+    </div>
+    <div id="fnNote" class="lbl" style="margin-top:22px;text-align:center">a pure function of t · scrub anywhere, get the same frame</div>
+  </div>
+
+  <!-- 4. sound -->
+  <div class="panel" id="pSnd">
+    <div class="card">
+      <div class="code" id="sndCode" style="padding:26px 36px 20px"></div>
+      <div class="bar"></div>
+      <div style="padding:34px 36px 52px;position:relative">
+        <svg id="wave" width="908" height="230" viewBox="0 0 908 230"></svg>
+        <div id="marks" class="a" style="left:36px;top:34px;width:908px;height:230px"></div>
+        <div id="playhead" class="a" style="top:24px;width:3px;height:250px;background:var(--paper);border-radius:2px"></div>
+      </div>
+      <div class="lbl" style="padding:0 36px 26px;display:flex;justify-content:space-between"><span>devLaunchr film · 10.3 – 18.6 s</span><span>synthesised · −16 LUFS</span></div>
+    </div>
+  </div>
+
+  <!-- 5. formats -->
+  <div class="panel" id="pFmt" style="height:800px">
+    <div id="fFrame" class="a card" style="border-radius:18px;background:#0d0d0f">
+      <div id="fHead" class="a" style="font-weight:600;letter-spacing:-.03em;line-height:1.08;color:var(--paper)">Scans your machine for <span class="g">runnable projects.</span></div>
+      <div id="fCard" class="a" style="background:var(--raised);border:1.5px solid var(--hair);border-radius:14px;overflow:hidden"></div>
+    </div>
+    <div id="fChips" class="a" style="display:flex;gap:14px;left:0;width:980px;justify-content:center;top:736px"></div>
+  </div>
+
+  <!-- 6. examine -->
+  <div class="panel" id="pEx">
+    <div id="sheet" style="background:#fff;padding:6px;border-radius:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;position:relative"></div>
+    <div id="checks" style="display:grid;grid-template-columns:1fr 1fr;gap:16px 30px;margin-top:34px;font-size:30px"></div>
+  </div>
+
+  <!-- 7. pipeline -->
+  <div class="panel" id="pPipe"><div id="pipe" style="position:relative"></div></div>
+</div><!--/stage-->
+
+<script>
+const $=L.$, W=L.W, H=L.H, T=41;
+
+// ------------------------------------------------------------ layout per format
+const LAY=L.pick({
+  '16x9':{head:{x:120,y:540,w:640,size:76,align:'left',anchor:'mid'},V:[1310,540],ps:1.06,mark:{y:440,word:220,tag:44,tagY:620,tag2:26,tag2Y:690}},
+  '9x16':{head:{x:70,y:200,w:940,size:86,align:'center',anchor:'top'},V:[540,1090],ps:1.04,mark:{y:820,word:230,tag:46,tagY:1010,tag2:27,tag2Y:1082}},
+  '4x5':{head:{x:70,y:90,w:940,size:70,align:'center',anchor:'top'},V:[540,800],ps:0.92,mark:{y:560,word:200,tag:42,tagY:730,tag2:25,tag2Y:796}},
+  default:{head:{x:80,y:70,w:920,size:60,align:'center',anchor:'top'},V:[540,640],ps:0.86,mark:{y:420,word:190,tag:40,tagY:585,tag2:24,tag2Y:648}}
+});
+const [VX,VY]=LAY.V, PS=LAY.ps;
+
+// ------------------------------------------------------------ timeline (seconds)
+const K={
+  crop:0.3, hCrop:0.6, cropWin:1.3, cropCut:2.4, cropOut:4.2, flash:4.45, mark:4.6, tag:5.5, tag2:6.1, markOut:9.2,
+  hFn:9.5, fnIn:9.65, fwd0:10.5, fwd1:12.3, grab:12.75, back1:13.45, fwd3:14.25, release:14.45, fnOut:15.0,
+  hSnd:15.3, sndIn:15.45, code0:15.85, wave0:17.4, wave1:18.4, mk0:18.65, sweep0:20.0, sweep1:21.4, sndOut:21.8,
+  hFmt:22.1, fmtIn:22.3, f1:23.5, f2:24.7, f3:25.9, f4:27.0, fmtOut:27.9,
+  hEx:28.2, exIn:28.35, th0:28.55, ck0:29.9, exOut:32.6,
+  hPipe:32.9, p0:33.25, pipeOut:36.55,
+  end:36.8, endWord:37.0, endFree:37.6, endUrl:38.0, endNote:38.7
+};
+
+// ------------------------------------------------------------ score
+L.cue(0,'drone',{until:4.6,v:0.85});
+L.cue(K.mark,'chord',{chord:'E',until:K.hFn,v:0.8});
+L.cue(K.hFn,'chord',{chord:'A',until:K.hSnd,v:0.75});
+L.cue(K.hSnd,'chord',{chord:'C#m',until:K.hFmt,v:0.72});
+L.cue(K.hFmt,'chord',{chord:'A',until:K.hEx,v:0.72});
+L.cue(K.hEx,'chord',{chord:'B',until:K.end,v:0.7});
+L.cue(K.end,'chord',{chord:'E',until:T,v:0.85});
+
+// ------------------------------------------------------------ helpers
+const toStage=el=>{const r=el.getBoundingClientRect(), s=$('stage').getBoundingClientRect(), k=s.width/W;return [(r.left-s.left)/k+r.width/k/2,(r.top-s.top)/k+r.height/k/2];};
+function panel(id,t,tin,tout,dy=50){
+  const el=$(id);
+  if(t<tin-0.05||t>tout+0.55){el.style.display='none';return null;}
+  el.style.display='';
+  const a=L.sp(t,tin,[11,0.9]), out=L.eio(t,tout,0.45);
+  L.place(el,VX,VY+(1-a)*dy-out*40,PS*(0.95+0.05*a)*(1-out*0.06));
+  el.style.opacity=(M.clamp(a*1.5)*(1-out)).toFixed(3);
+  return {a,out};
+}
+const show=(el,on)=>{el.style.display=on?'':'none';return on;};
+
+// ------------------------------------------------------------ headlines
+const HEADS=[['hCrop',K.hCrop,K.cropOut],['hFn',K.hFn,K.fnOut],['hSnd',K.hSnd,K.sndOut],['hFmt',K.hFmt,K.fmtOut],['hEx',K.hEx,K.exOut],['hPipe',K.hPipe,K.pipeOut]];
+HEADS.forEach(([,t0])=>L.cue(t0,'whoosh',{dur:0.5,v:0.25}));
+function heads(t){
+  const h=LAY.head;
+  for(const [id,tin,tout] of HEADS){
+    const el=$(id);
+    if(t<tin-0.05||t>tout+0.5){el.style.display='none';continue;}
+    el.style.display='';el.style.fontSize=h.size+'px';el.style.width=h.w+'px';el.style.textAlign=h.align;
+    const hh=el.offsetHeight;
+    el.style.transform=`translate(${h.x}px,${(h.anchor==='mid'?h.y-hh/2:h.y)}px)`;
+    [...el.querySelectorAll('.mask>span')].forEach((s,i)=>L.rise(s,t,tin+i*0.09,tout-0.05+i*0.05,{dy:110}));
+  }
+}
+
+// ------------------------------------------------------------ 1. the crop
+const CW=980, CH=551, winW=Math.round(CH*9/16), winCX=618;
+L.cue(K.crop,'whoosh_out',{dur:0.5,v:0.3});
+L.cue(K.cropWin,'pop',{v:0.6});
+L.cue(K.cropCut,'thud',{v:0.8});
+L.cue(K.cropOut,'whoosh_in',{dur:0.45,v:0.8});
+L.cue(K.flash,'swell',{dur:1.0,v:0.6});
+L.cue(K.mark,'jingle',{notes:['E5','B5','E6'],step:0.13,v:1});
+function sceneCrop(t){
+  const el=$('pCrop');
+  if(t<K.crop-0.05||t>K.cropOut+0.5){el.style.display='none';return;}
+  el.style.display='';
+  const a=L.sp(t,K.crop,[11,0.9]), c=M.eio(L.seg(t,K.cropOut,K.cropOut+0.4));
+  L.place(el,M.lerp(VX,W/2,c),M.lerp(VY+(1-a)*50,LAY.mark.y,c),PS*(0.95+0.05*a)*(1-c*0.97));
+  el.style.opacity=(M.clamp(a*1.5)*(1-c)).toFixed(3);
+  const w=L.sp(t,K.cropWin,[16,0.8]), x0=winCX-winW/2, x1=winCX+winW/2;
+  const cw=$('cropWin'); show(cw,t>=K.cropWin);
+  Object.assign(cw.style,{left:x0+'px',top:'0px',width:winW+'px',height:CH+'px',transform:`scale(${(1.25-0.25*w).toFixed(4)})`,opacity:M.clamp(w*1.5).toFixed(3)});
+  const d=L.eio(t,K.cropCut,0.35);
+  const dl=$('dimL'), dr=$('dimR');
+  Object.assign(dl.style,{left:'0px',top:'0px',width:x0+'px',height:CH+'px',opacity:d.toFixed(3)});
+  Object.assign(dr.style,{left:x1+'px',top:'0px',width:(CW-x1)+'px',height:CH+'px',opacity:d.toFixed(3)});
+  const ch=$('cropChip'), ck=L.sp(t,K.cropWin+0.15,[16,0.8]);
+  ch.style.left=(winCX-ch.offsetWidth/2)+'px'; ch.style.top=(-80+(1-ck)*14)+'px'; ch.style.opacity=M.clamp(ck*1.4);
+  const lo=$('cropLost'), lk=L.sp(t,K.cropCut+0.2,[16,0.8]);
+  lo.style.left=(x0/2-lo.offsetWidth/2)+'px'; lo.style.top=(CH+24+(1-lk)*12)+'px'; lo.style.opacity=t<K.cropCut?0:M.clamp(lk*1.4);
+}
+L.cue(K.cropCut+0.2,'tick',{f:900,v:0.4});
+
+// ------------------------------------------------------------ 2. mark + end card
+function sceneMark(t){
+  const f=$('flash'), fa=L.seg(t,K.flash,K.mark+0.25);
+  if(t<K.flash||t>K.mark+0.35) f.style.display='none';
+  else{f.style.display='';L.place(f,W/2,LAY.mark.y,Math.sin(Math.PI*fa)*2.4);f.style.opacity=1-fa*0.6;}
+  const wm=$('wm'), wsp=wm.querySelector('.mask>span'), tg=$('tag'), tg2=$('tag2'), Mk=LAY.mark;
+  const ends=['endFree','endUrl','endNote'];
+  if(t<K.end){
+    ends.forEach(id=>$(id).style.display='none');
+    const out=L.eio(t,K.markOut,0.45);
+    if(t<K.mark||out>=1){wm.style.display=tg.style.display=tg2.style.display='none';return;}
+    wm.style.display=tg.style.display=tg2.style.display='';
+    wm.style.fontSize=Mk.word+'px';
+    const a=L.sp(t,K.mark,[11,0.82]);
+    L.place(wm,W/2,Mk.y-out*50,(0.92+0.08*a)*(1+0.006*Math.sin((t-K.mark)*2)));
+    L.rise(wsp,t,K.mark,null,{dy:110,spring:[12,0.86]}); wm.style.opacity=1-out;
+    wm.style.letterSpacing=(-0.045+0.03*(1-a))+'em';
+    [[tg,K.tag,Mk.tag,Mk.tagY],[tg2,K.tag2,Mk.tag2,Mk.tag2Y]].forEach(([el,t0,s,y])=>{const k=L.sp(t,t0,[15,0.9]);el.style.fontSize=s+'px';
+      L.place(el,W/2,y+(1-k)*26-out*50); el.style.opacity=(M.clamp(k*1.4)*(1-out)*(t>=t0?1:0)).toFixed(3);});
+    return;
+  }
+  // end card: the mark comes home
+  tg.style.display=tg2.style.display='none'; wm.style.display='';
+  const a=L.sp(t,K.endWord,[11,0.86]);
+  wm.style.fontSize=Mk.word+'px'; wm.style.letterSpacing='-0.045em'; wm.style.opacity=1;
+  L.place(wm,W/2,Mk.y-30,(0.92+0.08*a)); L.rise(wsp,t,K.endWord,null,{dy:110,spring:[12,0.86]});
+  [['endFree',K.endFree,Mk.tag,Mk.tagY-10],['endUrl',K.endUrl,Mk.tag,Mk.tagY+70],['endNote',K.endNote,Mk.tag2,Mk.tagY+170]].forEach(([id,t0,s,y])=>{
+    const el=$(id),k=L.sp(t,t0,[15,0.9]); el.style.display=t<t0?'none':''; el.style.fontSize=s+'px';
+    L.place(el,W/2,y+(1-k)*24); el.style.opacity=M.clamp(k*1.4);});
+}
+L.cue(K.tag,'tick',{f:1800,v:0.35}); L.cue(K.tag2,'tick',{f:2200,v:0.3});
+L.cue(K.endWord,'jingle',{notes:['E5','G#5','B5','E6'],step:0.11,v:1.1,big:true});
+L.cue(K.endFree,'tick',{f:1800,v:0.35}); L.cue(K.endUrl,'tick',{f:2600,v:0.5}); L.cue(K.endNote,'tick',{f:2200,v:0.3});
+
+// ------------------------------------------------------------ 3. one function
+const CHW=640, CHH=230, U1=1.2;
+const spr=u=>L.sp(u,0.2);
+(function(){
+  let d='';for(let i=0;i<=200;i++){const u=i/200*U1;d+=(i?'L':'M')+(u/U1*CHW).toFixed(1)+' '+(CHH-20-spr(u)*(CHH-60)).toFixed(1);}
+  $('fnChart').innerHTML=`<line x1="0" x2="${CHW}" y1="${CHH-20}" y2="${CHH-20}" stroke="#26262b" stroke-width="1.5"/>
+   <line x1="0" x2="${CHW}" y1="40" y2="40" stroke="#26262b" stroke-width="1.5" stroke-dasharray="6 8"/>
+   <text x="${CHW}" y="30" fill="#52525b" font-family="Geist Mono" font-size="18" text-anchor="end">a = 1</text>
+   <path id="fnCurve" d="${d}" fill="none" stroke="#3aef64" stroke-width="4" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1"/>
+   <circle id="fnDot" r="11" fill="#f4f4f5" stroke="#09090b" stroke-width="3"/>`;
+})();
+// playhead u(t): plays forward, then the cursor drags it back and forward again
+const fnU=t=>{
+  if(t<K.fwd0) return 0;
+  if(t<K.fwd1) return U1*L.seg(t,K.fwd0,K.fwd1);
+  if(t<K.grab+0.05) return U1;
+  if(t<K.back1) return M.lerp(U1,0.24,M.eio(L.seg(t,K.grab+0.05,K.back1)));
+  if(t<K.back1+0.15) return 0.24;
+  return M.lerp(0.24,0.95,M.eio(L.seg(t,K.back1+0.15,K.fwd3)));
+};
+L.cue(K.fnIn,'whoosh_out',{dur:0.5,v:0.3});
+L.cue(K.fwd0,'tick',{f:1400,v:0.4});
+L.cue(K.fwd0+0.2*(K.fwd1-K.fwd0)/U1+0.3,'pop',{v:0.5});
+L.cue(K.grab,'click');
+L.cue(K.grab+0.1,'whoosh_in',{dur:0.6,v:0.35});
+L.cue(K.back1+0.2,'whoosh_out',{dur:0.6,v:0.3});
+L.cue(K.release,'tick',{f:1600,v:0.4});
+function sceneFn(t){
+  if(!panel('pFn',t,K.fnIn,K.fnOut)) return;
+  const u=fnU(t), a=spr(u);
+  const x=u/U1*CHW, y=CHH-20-a*(CHH-60);
+  const dot=$('fnDot'); dot.setAttribute('cx',x.toFixed(1)); dot.setAttribute('cy',y.toFixed(1));
+  // the drawn curve reveals as far as the playhead has ever reached
+  const reach=t<K.fwd1?u/U1:1;
+  $('fnCurve').setAttribute('stroke-dashoffset',(1-reach).toFixed(4));
+  $('fnPill').style.top=(84+(1-a)*120)+'px';
+  M.setText($('fnT'),`t = ${u.toFixed(2)} s`);
+  const p=u/U1; $('fnFill').style.width=(p*100).toFixed(2)+'%'; $('fnKnob').style.left=`calc(${(p*100).toFixed(2)}% - 15px)`;
+  const nk=L.sp(t,K.fwd1+0.2,[15,0.9]); $('fnNote').style.opacity=t<K.fwd1+0.2?0:M.clamp(nk*1.4);
+}
+// cursor: grabs the knob, drags it back, lets go
+function cursor(t){
+  const c=$('cursor');
+  if(t<K.grab-0.55||t>K.release+0.5||$('pFn').style.display==='none'){c.style.display='none';return;}
+  c.style.display='';
+  const [kx,ky]=toStage($('fnKnob'));
+  let x=kx+4,y=ky+4;
+  if(t<K.grab-0.05){const e=M.eio(L.seg(t,K.grab-0.55,K.grab-0.05));x=M.lerp(kx+220,kx+4,e);y=M.lerp(ky+170,ky+4,e);}
+  if(t>K.release){const e=M.eio(L.seg(t,K.release,K.release+0.45));x+=e*60;y+=e*90;}
+  const press=M.presses([],[[K.grab,K.release]])(t);
+  const o=M.clamp((t-(K.grab-0.55))/0.2)*M.clamp((K.release+0.5-t)/0.25);
+  c.style.width=(L.portrait?54:46)+'px';
+  c.style.transform=`translate(${(x-3).toFixed(1)}px,${(y-3).toFixed(1)}px) scale(${(1-0.13*press).toFixed(4)})`; c.style.opacity=o.toFixed(3);
+}
+
+// ------------------------------------------------------------ 4. sound: the devLaunchr film's real cues over its real waveform
+const ENV={"t0": 10.3, "rate": 40, "v": [0.232, 0.237, 0.246, 0.25, 0.257, 0.265, 0.255, 0.26, 0.245, 0.242, 0.609, 0.39, 0.277, 0.259, 0.259, 0.246, 0.258, 0.258, 0.254, 0.265, 0.254, 0.256, 0.253, 0.249, 0.244, 0.239, 0.235, 0.233, 0.231, 0.227, 0.225, 0.222, 0.22, 0.217, 0.219, 0.211, 0.201, 0.193, 0.189, 0.179, 0.175, 0.175, 0.674, 0.211, 0.197, 0.209, 0.207, 0.204, 0.205, 0.201, 0.2, 0.195, 0.196, 0.197, 0.201, 0.21, 0.22, 0.221, 0.289, 0.238, 0.244, 0.276, 0.309, 0.372, 0.258, 0.246, 0.215, 0.233, 0.215, 0.197, 0.194, 0.199, 0.236, 0.209, 0.216, 0.216, 0.226, 0.343, 0.261, 0.241, 0.237, 0.24, 0.273, 0.247, 0.251, 0.258, 0.311, 0.283, 0.281, 0.301, 0.312, 0.319, 0.31, 0.295, 0.282, 0.277, 0.297, 0.268, 0.255, 0.246, 0.242, 0.274, 0.218, 0.208, 0.2, 0.196, 0.195, 0.185, 0.184, 0.188, 0.197, 0.211, 0.222, 0.234, 0.238, 0.244, 0.634, 0.601, 0.56, 0.916, 0.814, 0.74, 0.726, 0.711, 0.675, 0.708, 0.699, 0.68, 0.652, 0.609, 0.599, 0.586, 0.581, 0.586, 0.588, 0.61, 0.615, 0.601, 0.557, 0.495, 0.477, 0.464, 0.449, 0.438, 0.447, 0.454, 0.456, 0.43, 0.404, 0.384, 0.364, 0.357, 0.343, 0.324, 0.318, 0.315, 0.332, 0.313, 0.312, 0.308, 0.31, 0.327, 0.329, 0.322, 0.315, 0.299, 0.284, 0.285, 0.297, 0.31, 0.305, 0.32, 0.334, 0.357, 0.384, 0.4, 0.394, 0.364, 0.324, 0.29, 0.277, 0.266, 0.257, 0.262, 0.28, 0.289, 0.298, 0.306, 0.303, 0.294, 0.276, 0.259, 0.251, 0.246, 0.238, 0.236, 0.232, 0.227, 0.232, 0.238, 0.231, 0.231, 0.232, 0.231, 0.231, 0.234, 0.228, 0.211, 0.197, 0.19, 0.174, 0.158, 0.178, 0.175, 0.182, 0.175, 0.136, 0.193, 0.176, 0.172, 0.196, 0.214, 0.221, 0.292, 0.157, 0.193, 0.168, 0.195, 0.18, 0.151, 0.169, 0.184, 0.128, 0.18, 0.164, 0.114, 0.166, 0.171, 0.126, 0.164, 0.173, 0.164, 0.183, 0.204, 0.197, 0.167, 0.212, 0.222, 0.205, 0.234, 0.218, 0.228, 0.233, 0.217, 0.207, 0.269, 0.244, 0.25, 0.264, 0.27, 0.226, 0.254, 0.273, 0.26, 0.287, 0.261, 0.272, 0.223, 0.295, 0.246, 0.291, 0.29, 0.284, 0.268, 0.261, 0.239, 0.274, 0.268, 0.277, 0.268, 0.263, 0.218, 0.213, 0.217, 0.228, 0.229, 0.221, 0.208, 0.181, 0.238, 0.845, 0.165, 0.187, 0.184, 0.168, 0.185, 0.148, 0.122, 0.131, 0.138, 0.117, 0.137, 0.125, 0.122, 0.141, 0.15, 0.169, 0.17, 0.186, 0.206, 0.192, 0.22, 0.205, 0.215, 0.757, 0.707, 0.76, 1.0, 0.896, 0.858, 0.863, 0.851, 0.809, 0.852, 0.845, 0.825, 0.797, 0.738, 0.726, 0.696, 0.689, 0.683]};
+const SND=[['K.pill','pop',10.55],['K.click1','click',11.35],['K.found','ding',13.2],['K.click2','click',17.55],['K.green','ding',18.15]];
+$('sndCode').innerHTML=SND.map(([k,s],i)=>`<div id="sc${i}"><span class="k">L.cue</span>(${k},${' '.repeat(9-k.length)}<span class="s">'${s}'</span>);</div>`).join('');
+const WW=908, WH=230, BW=WW/ENV.v.length;
+$('wave').innerHTML=`<defs><clipPath id="wclip"><rect id="wrect" x="0" y="0" width="0" height="${WH}"/></clipPath></defs><g clip-path="url(#wclip)">`+
+  ENV.v.map((v,i)=>{const h=Math.max(3,Math.pow(M.clamp((v-0.2)/0.8),0.75)*(WH-30));return `<rect x="${(i*BW).toFixed(2)}" y="${((WH-h)/2).toFixed(1)}" width="${(BW*0.62).toFixed(2)}" height="${h.toFixed(1)}" rx="1" fill="#52525b"/>`;}).join('')+'</g>';
+const WT=t=>(t-ENV.t0)/(ENV.v.length/ENV.rate)*WW;
+$('marks').innerHTML=SND.map(([k,s,tc],i)=>`<div id="mk${i}" class="a" style="left:${WT(tc).toFixed(1)}px;top:0;width:0;height:${WH}px">
+  <div class="a" style="left:-1.5px;top:0;width:3px;height:${WH}px;background:var(--accent);border-radius:2px"></div>
+  <div class="a mono" id="ml${i}" style="left:0;top:${i%2?WH+4:-4}px;transform:translate(-50%,${i%2?0:-100}%);font-size:19px;color:var(--ink);background:var(--accent);border-radius:7px;padding:2px 9px;white-space:nowrap">${s}</div></div>`).join('');
+L.cue(K.sndIn,'whoosh_out',{dur:0.5,v:0.3});
+SND.forEach((_,i)=>L.cue(K.code0+i*0.26,'key',{v:0.8}));
+L.cue(K.wave0,'whoosh_out',{dur:1.0,v:0.3});
+SND.forEach(([,s],i)=>L.cue(K.mk0+i*0.24,s,{v:s==='ding'?0.6:0.8}));
+SND.forEach(([,,tc])=>L.cue(M.lerp(K.sweep0,K.sweep1,(tc-ENV.t0)/(ENV.v.length/ENV.rate)),'tick',{f:2400,v:0.22}));
+function sceneSnd(t){
+  if(!panel('pSnd',t,K.sndIn,K.sndOut)) return;
+  SND.forEach((_,i)=>{const el=$('sc'+i),k=L.sp(t,K.code0+i*0.26,[18,0.85]);el.style.opacity=t<K.code0+i*0.26?0:M.clamp(k*1.4);el.style.transform=`translateX(${(1-k)*-18}px)`;
+    const hit=t>=K.mk0+i*0.24; el.style.color=hit?'var(--paper)':'';});
+  $('wrect').setAttribute('width',(WW*M.eio(L.seg(t,K.wave0,K.wave1))).toFixed(1));
+  const sw=L.seg(t,K.sweep0,K.sweep1), px=sw*WW;
+  SND.forEach((_,i)=>{const el=$('mk'+i),k=L.sp(t,K.mk0+i*0.24,[18,0.7]);el.style.display=t<K.mk0+i*0.24?'none':'';
+    const mx=+el.style.left.replace('px',''), near=t>K.sweep0&&t<K.sweep1+0.3?Math.exp(-Math.pow((px-mx)/40,2)):0;
+    el.style.opacity=M.clamp(k*1.5);el.style.transform=`translateY(${(1-k)*-30}px) scale(${1+0.15*near})`;
+    $('ml'+i).style.boxShadow=`0 0 0 ${(near*10).toFixed(1)}px rgba(0,232,51,${(0.25*near).toFixed(3)})`;});
+  const ph=$('playhead'); show(ph,t>=K.sweep0-0.1&&t<=K.sweep1+0.3);
+  ph.style.left=(36+px-1.5)+'px'; ph.style.opacity=M.clamp((t-K.sweep0+0.1)/0.15)*M.clamp((K.sweep1+0.3-t)/0.2);
+}
+
+// ------------------------------------------------------------ 5. formats: one layout, recomposed
+const FMTS=[['16:9',0],['9:16',K.f1],['1:1',K.f2],['4:5',K.f3],['16:9',K.f4]];
+const FL={
+  '16:9':{w:880,h:495,hx:58,hy:170,hw:330,hs:40,cx:450,cy:62,cw:380,ch:370},
+  '9:16':{w:394,h:700,hx:36,hy:66,hw:322,hs:34,cx:36,cy:240,cw:322,ch:400},
+  '1:1':{w:620,h:620,hx:60,hy:58,hw:500,hs:38,cx:100,cy:212,cw:420,ch:350},
+  '4:5':{w:540,h:675,hx:48,hy:62,hw:444,hs:38,cx:64,cy:232,cw:412,ch:390}
+};
+const ftr={};
+['w','h','hx','hy','hw','hs','cx','cy','cw','ch'].forEach(k=>ftr[k]=M.track(FL['16:9'][k],FMTS.slice(1).map(([f,t0])=>[t0,FL[f][k]]),M.MORPH));
+const FROWS=['acme-marketing','portfolio','recipe-box','dashboard','docs-site','api','landing'];
+$('fCard').innerHTML=`<div style="padding:18px 20px 8px;font-weight:600;color:var(--accentText);font-size:22px">33 projects found</div>`+FROWS.map(r=>`<div class="row" style="padding:0 20px;height:40px;border-top:1.5px solid var(--hair);font-size:18px;color:var(--paper)"><span class="dot" style="width:9px;height:9px;background:var(--accent)"></span>${r}</div>`).join('');
+$('fChips').innerHTML=['16:9','9:16','1:1','4:5'].map((f,i)=>`<span class="chip" id="fc${i}">${f}</span>`).join('');
+L.cue(K.fmtIn,'whoosh_out',{dur:0.5,v:0.3});
+FMTS.slice(1).forEach(([,t0])=>{L.cue(t0-0.05,'whoosh',{dur:0.45,v:0.3});L.cue(t0+0.3,'pop',{v:0.45});});
+function sceneFmt(t){
+  if(!panel('pFmt',t,K.fmtIn,K.fmtOut)) return;
+  const g={};for(const k in ftr) g[k]=ftr[k](t);
+  const fr=$('fFrame'); Object.assign(fr.style,{width:g.w+'px',height:g.h+'px',left:(490-g.w/2)+'px',top:(350-g.h/2)+'px'});
+  const hd=$('fHead'); Object.assign(hd.style,{left:g.hx+'px',top:g.hy+'px',width:g.hw+'px',fontSize:g.hs+'px'});
+  const cd=$('fCard'); Object.assign(cd.style,{left:g.cx+'px',top:g.cy+'px',width:g.cw+'px',height:g.ch+'px'});
+  const cur=M.step('16:9',FMTS.map(([f,t0])=>[t0,f]))(t);
+  ['16:9','9:16','1:1','4:5'].forEach((f,i)=>{const el=$('fc'+i),on=f===cur;el.style.background=on?'var(--accent)':'var(--recessed)';el.style.color=on?'var(--ink)':'var(--ash)';el.style.borderColor=on?'var(--accent)':'var(--hair)';
+    const k=L.sp(t,K.fmtIn+0.3+i*0.08,[18,0.85]);el.style.opacity=M.clamp(k*1.4);el.style.transform=`translateY(${(1-k)*16}px)`;});
+}
+
+// ------------------------------------------------------------ 6. examine: the real five-frame sheet from the devLaunchr film
+const STILLS=['dl-3.0','dl-13.3','dl-21','dl-31.5','dl-39.6'], PCT=['0%','25%','50%','75%','100%'];
+$('sheet').innerHTML=STILLS.map((s,i)=>`<div id="th${i}" style="position:relative"><img src="assets/${s}.jpg" style="display:block;width:100%;border-radius:4px">
+  <span class="mono" style="position:absolute;left:8px;top:8px;font-size:16px;color:var(--paper);background:rgba(9,9,11,.75);border-radius:5px;padding:1px 7px">${PCT[i]}</span></div>`).join('');
+const CHECKS=['No clipped letters','No orphans','Text held ≥ 1.2 s','A sound on every change'];
+$('checks').innerHTML=CHECKS.map((c,i)=>`<div class="row" id="ck${i}"><span id="cb${i}" style="width:38px;height:38px;border-radius:10px;border:2px solid var(--steel);display:flex;align-items:center;justify-content:center;box-sizing:border-box">
+  <svg width="24" height="24" viewBox="0 0 24 24"><path id="cp${i}" d="M5 12.5 10 17.5 19 7" fill="none" stroke="#09090b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1 1"/></svg></span><span style="color:var(--paper)">${c}</span></div>`).join('');
+L.cue(K.exIn,'whoosh_out',{dur:0.5,v:0.3});
+STILLS.forEach((_,i)=>L.cue(K.th0+i*0.14,'tick',{f:1300+i*120,v:0.35}));
+CHECKS.forEach((_,i)=>L.cue(K.ck0+0.25+i*0.4,'tick',{f:2000+i*150,v:0.45}));
+L.cue(K.ck0+0.25+3*0.4+0.25,'ding',{v:0.6});
+function sceneEx(t){
+  if(!panel('pEx',t,K.exIn,K.exOut)) return;
+  STILLS.forEach((_,i)=>{const el=$('th'+i),k=L.sp(t,K.th0+i*0.14,[18,0.8]);el.style.opacity=t<K.th0+i*0.14?0:M.clamp(k*1.5);el.style.transform=`scale(${(0.9+0.1*k).toFixed(4)})`;});
+  CHECKS.forEach((_,i)=>{const el=$('ck'+i),k=L.sp(t,K.ck0+i*0.1,[18,0.85]);el.style.opacity=t<K.ck0+i*0.1?0:M.clamp(k*1.4);el.style.transform=`translateY(${(1-k)*16}px)`;
+    const tc=K.ck0+0.25+i*0.4, c=L.sp(t,tc,[22,0.7]), on=t>=tc;
+    const b=$('cb'+i); b.style.background=on?'var(--accent)':'transparent'; b.style.borderColor=on?'var(--accent)':'var(--steel)'; b.style.transform=`scale(${on?(0.8+0.2*c).toFixed(4):1})`;
+    $('cp'+i).setAttribute('stroke-dashoffset',on?(1-M.eo(L.seg(t,tc,tc+0.25))).toFixed(3):1);});
+}
+
+// ------------------------------------------------------------ 7. pipeline
+const PIPE=[['SKILL.md','the RISE method'],['build.py','one page, every format'],['stills.js','the five-frame check'],['audio.py','soundtrack at −16 LUFS'],['render.js','four sub-frames per frame'],['MP4','16:9 · 9:16 · 1:1 · 4:5']];
+const PR=104;
+$('pipe').innerHTML=`<div class="a" style="left:31px;top:40px;width:3px;height:${PR*(PIPE.length-1)}px;background:var(--hair)"></div><div id="pLine" class="a" style="left:31px;top:40px;width:3px;background:var(--accent)"></div>`+
+  PIPE.map(([n,d],i)=>`<div class="row" id="pn${i}" style="position:absolute;left:0;top:${i*PR}px;height:80px;gap:30px">
+  <span id="pd${i}" class="dot" style="width:28px;height:28px;margin-left:19px;border:3px solid var(--steel);background:var(--ink);box-sizing:border-box"></span>
+  <span class="mono" style="font-size:38px;color:var(--paper);width:290px">${n}</span><span style="font-size:32px;color:var(--ash)">${d}</span></div>`).join('');
+$('pipe').style.height=(PR*(PIPE.length-1)+80)+'px';
+L.cue(K.hPipe+0.1,'whoosh_out',{dur:0.5,v:0.3});
+const pT=i=>K.p0+i*0.46;
+PIPE.forEach((_,i)=>L.cue(pT(i),i===PIPE.length-1?'ding':'tick',i===PIPE.length-1?{v:0.7}:{f:1200+i*220,v:0.45}));
+L.cue(pT(PIPE.length-1)+0.05,'pop',{v:0.5});
+function scenePipe(t){
+  if(!panel('pPipe',t,K.hPipe+0.1,K.pipeOut)) return;
+  PIPE.forEach((_,i)=>{const el=$('pn'+i),k=L.sp(t,K.hPipe+0.25+i*0.07,[18,0.85]);el.style.opacity=M.clamp(k*1.4);el.style.transform=`translateX(${(1-k)*-26}px)`;
+    const on=t>=pT(i), c=L.sp(t,pT(i),[20,0.6]), d=$('pd'+i);
+    d.style.background=on?'var(--accent)':'var(--ink)'; d.style.borderColor=on?'var(--accent)':'var(--steel)';
+    d.style.transform=`scale(${on?(0.7+0.3*c).toFixed(4):1})`; d.style.boxShadow=on?`0 0 0 ${(8*(1-M.clamp(L.seg(t,pT(i),pT(i)+0.6)))).toFixed(1)}px rgba(0,232,51,.3)`:'none';
+    el.children[1].style.color=on?'var(--accentText)':'var(--paper)';});
+  const prog=M.clamp(L.seg(t,K.p0,pT(PIPE.length-1)));
+  $('pLine').style.height=(PR*(PIPE.length-1)*M.eio(prog)).toFixed(1)+'px';
+}
+
+L.film({T, bg:'#09090b', audio:'assets/soundtrack.wav', grain:{amount:0.075}, vignette:0.6, render:t=>{
+  heads(t); sceneCrop(t); sceneMark(t); sceneFn(t); sceneSnd(t); sceneFmt(t); sceneEx(t); scenePipe(t); cursor(t);
+}});
+</script>
