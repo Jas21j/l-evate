@@ -1,6 +1,6 @@
 # L-evate
 
-Motion graphics, drawn in code. L-evate is a [Claude Code](https://claude.com/claude-code) skill for launch films, product explainers, and social cuts. One `render(t)` function draws every frame, and the soundtrack is synthesised from the same cue list, so picture and sound cannot drift. One page renders to 16:9, 9:16, 1:1, and 4:5 by recomposing, never cropping.
+Motion graphics, drawn in code. L-evate is a model-agnostic creative motion system for launch films, product explainers, branded motion, social cuts, showreels, and experimental visual work. One `render(t)` function draws every frame, and the soundtrack is synthesised from the same cue list, so picture and sound cannot drift. One page renders to 16:9, 9:16, 1:1, and 4:5 by recomposing, never cropping.
 
 [![The L-evate film: one function draws every frame, sound from the same timeline, every format recomposed](media/l-evate.gif)](media/l-evate-16x9.mp4)
 
@@ -21,7 +21,7 @@ Because the film is text, a change is an edit rather than a re-export. Move one 
 
 | Step | File | What it removes |
 | --- | --- | --- |
-| Brief | `SKILL.md` | Starting from a blank timeline. Claude writes a beat table first, then the scene. |
+| Brief | `SKILL.md` | Starting from a blank timeline. The executing model, agent, or creator develops the concept and scene architecture. |
 | Build | `engine/build.py` | Separate projects per aspect ratio. One page opens as 16:9, 9:16, 1:1, or 4:5. |
 | Examine | `engine/stills.js` | Finding a clipped headline after a long render. Stills at every quarter, in every format, come first. |
 | Sound | `engine/audio.py` | Stock music licences and syncing by hand. Every sound is synthesised from the cue list. |
@@ -30,7 +30,7 @@ Because the film is text, a change is an edit rather than a re-export. Move one 
 
 ## Install
 
-Copy this folder into your Claude Code skills directory, for example `~/.claude/skills/l-evate`, then ask Claude for a launch film, explainer, or social cut. `SKILL.md` holds the full workflow; read `LEARNINGS.md` before a new project.
+Install or expose this folder as a skill/instruction package in the model or agent environment of your choice. `SKILL.md` contains the model-agnostic workflow and engine contract; `LEARNINGS.md` contains accumulated implementation lessons. The framework does not depend on any one model family or coding-agent product.
 
 Requirements: Node 18+, Playwright with Chromium, Python 3 with NumPy, and ffmpeg (libx264, AAC).
 
