@@ -7,7 +7,7 @@ description: Create exceptional launch films, product explainers, branded motion
 
 L-evate is a creative motion system, not a style template.
 
-Its job is to give the model a reliable technical instrument while preserving as much creative authorship as possible.
+Its job is to provide a reliable technical instrument while preserving maximum creative authorship for whatever model, agent, or human is driving it.
 
 One `render(t)` function draws every frame. The same file may register sound with `L.cue()`, so picture and sound can remain synchronized. A single scene may render to 16:9, 9:16, 1:1, and 4:5 through true recomposition rather than simple cropping.
 
@@ -21,7 +21,7 @@ Do not begin by imitating previous L-evate films.
 
 Begin by understanding the product, brand, audience, objective, and available material. Then invent the strongest visual solution for this specific project.
 
-The model has broad authorship over:
+The creator has unrestricted authorship over:
 
 - visual concept;
 - story structure;
@@ -50,7 +50,68 @@ The quality bar is:
 
 > Make the strongest piece that could reasonably exist for this product and objective, using the available evidence, assets, runtime, and time.
 
-The engine is a capability layer. The creative direction belongs to the model.
+The engine is a capability layer. Creative direction is not owned by the framework.
+
+---
+
+## 0A. Model-agnostic execution
+
+L-evate is model-agnostic.
+
+Do not assume:
+- Claude;
+- Sonnet;
+- Opus;
+- GPT;
+- Gemini;
+- a specific coding agent;
+- hidden chain-of-thought;
+- browser access;
+- terminal access;
+- web research;
+- image generation;
+- video generation;
+- MCP;
+- a specific IDE;
+- a specific orchestration framework.
+
+Use whatever capabilities are actually available.
+
+A text-only model can:
+- design the concept;
+- write the beat architecture;
+- produce scene code;
+- specify assets;
+- create implementation instructions.
+
+A coding agent can additionally:
+- inspect repositories;
+- run the product;
+- capture screenshots;
+- generate and modify files;
+- render previews;
+- inspect failures;
+- iterate autonomously.
+
+A multimodal model can additionally:
+- critique frames;
+- compare references;
+- reason about composition;
+- inspect screenshots, footage, and renders.
+
+A tool-rich agent can additionally:
+- research;
+- source permitted assets;
+- measure UI;
+- render;
+- test;
+- revise;
+- extend the engine.
+
+The absence of one capability should change the workflow, not lower the ambition. Substitute the strongest available method and make unsupported assumptions explicit.
+
+Never rely on a model-specific prompting trick as part of the core method. The skill should remain intelligible and executable across present and future model families.
+
 
 ---
 
@@ -118,7 +179,7 @@ Previous examples are references, not templates.
 
 ## 2. Creative modes
 
-Before building, infer the appropriate creative mode. Do not ask the user to choose unless the brief is genuinely ambiguous.
+Creative modes are optional lenses, not gates. Use, combine, ignore, or invent modes as the brief demands. Never force a project into a preset simply because a preset exists.
 
 ### OPEN mode — default
 
@@ -134,11 +195,11 @@ Use when the user asks for:
 - an experimental or cinematic piece.
 
 In OPEN mode:
-- explore multiple visual directions mentally before committing;
+- explore multiple substantially different visual directions before committing when the available model/tooling supports exploration;
 - do not inherit prior L-evate scene grammar unless it is clearly the strongest answer;
 - allow composition, typography, palette, transitions, and pacing to emerge from the project;
-- use the engine's capabilities beyond the documented examples when useful;
-- write helper functions or project-local rendering utilities when needed.
+- use capabilities beyond the documented examples whenever they improve the result;
+- write or generate helper functions, project-local rendering utilities, shaders, procedural systems, simulations, layout engines, or other supporting code when useful.
 
 ### BRAND mode
 
@@ -304,7 +365,7 @@ The beat table is a planning tool, not a requirement that every beat contain onl
 
 Multiple simultaneous changes are allowed when they are intentional, legible, and rhythmically controlled.
 
-Ask internally:
+Interrogate the concept with questions such as:
 
 - What is the most memorable visual idea here?
 - What could only this product say?
@@ -422,9 +483,58 @@ You may also use ordinary browser capabilities when useful:
 - WebGL-compatible browser approaches if the render pipeline remains deterministic;
 - project-local JS helpers.
 
-If a creative idea requires a capability that does not exist, extend the project locally rather than abandoning the idea prematurely.
+If a creative idea requires a capability that does not exist, extend, wrap, replace, or bypass parts of the engine as needed. The engine is infrastructure, not a boundary. Preserve compatibility only where it remains useful.
 
-Do not modify the core engine unless the new capability is general enough to benefit future projects.
+---
+
+## 6A. Frontier permission
+
+There is no approved visual vocabulary.
+
+The creator is explicitly permitted to push beyond conventional motion-design patterns and beyond prior L-evate examples.
+
+Possible directions include, but are not limited to:
+- generative geometry;
+- procedural worlds;
+- shader-driven graphics;
+- volumetric illusions;
+- simulated lighting;
+- depth fields;
+- particle systems;
+- vector fields;
+- fluid-like motion;
+- physics-inspired systems;
+- data-driven choreography;
+- recursive layouts;
+- infinite-canvas movement;
+- nonlinear timelines;
+- split temporalities;
+- multi-camera compositions;
+- spatial UI;
+- impossible interfaces;
+- abstract environments;
+- typographic sculpture;
+- image deformation;
+- cinematic compositing;
+- live-action integration;
+- diagrammatic storytelling;
+- interactive-feeling sequences;
+- game-like visual systems;
+- surreal transitions;
+- mixed media;
+- deliberately minimal compositions;
+- deliberately maximal compositions.
+
+These are not recommendations. They are evidence that the creative ceiling is not defined by the existing engine API.
+
+If the strongest idea requires new primitives, invent them.
+
+If the strongest idea requires a different rendering technique for part of the film, use it.
+
+If the strongest idea is simpler than the engine's capabilities, keep it simple.
+
+The criterion is not technical complexity. The criterion is whether the result is exceptional, coherent, truthful, and appropriate to the brief.
+
 
 ---
 
@@ -620,10 +730,10 @@ Check:
 - Does the ending earn its payoff?
 
 ### Originality
-- Does this feel like the best solution to this brief, or like a previous L-evate film with different branding?
+- Does this feel specifically authored for this brief, or could it be mistaken for a prior L-evate piece with different branding?
 - Which scene is visually unexpected?
 - Is there at least one memorable visual idea?
-- Did the model exploit the subject matter or merely decorate it?
+- Did the work exploit the subject matter or merely decorate it?
 
 ### Craft
 - no accidental clipping;
@@ -645,7 +755,7 @@ Iterate until the piece feels authored rather than assembled.
 For ambitious work, use this internal loop before final rendering:
 
 ### Pass 1 — Concept
-Generate at least three substantially different conceptual directions mentally.
+Generate or consider multiple substantially different conceptual directions when doing so can improve the result.
 
 Reject the weakest.
 
@@ -755,7 +865,7 @@ unless the brief specifically benefits from those choices.
 
 ## 16. Engine philosophy
 
-L-evate should expand the model's range, not shrink it.
+L-evate should expand the creator's range, not shrink it.
 
 The engine provides:
 - deterministic time;
